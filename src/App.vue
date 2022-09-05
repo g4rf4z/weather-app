@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col min-h-screen font-Roboto bg-weather-primary">
+  <div class="app-container">
     <site-navigation />
     <router-view />
   </div>
@@ -9,4 +9,8 @@
 import SiteNavigation from "./components/SiteNavigation.vue";
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.app-container {
+  @apply flex flex-col min-h-screen font-Roboto bg-weather-primary;
+}
+</style>
