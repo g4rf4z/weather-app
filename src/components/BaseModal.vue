@@ -1,8 +1,8 @@
 <template>
   <transition name="modal-outer">
-    <div class="container" v-show="modalActive">
+    <div id="container" v-show="modalActive">
       <transition name="modal-inner">
-        <div class="content" v-if="modalActive">
+        <div id="content" v-if="modalActive">
           <slot />
           <button @click="$emit('close-modal')">Close</button>
         </div>
@@ -23,16 +23,16 @@ defineEmits(["close-modal"]);
 </script>
 
 <style lang="scss" scoped>
-.container {
-  @apply absolute w-full bg-black bg-opacity-30 h-screen top-0 left-0 flex justify-center px-8;
+#container {
+  @apply h-screen w-full px-8 flex justify-center absolute top-0 right-0 bottom-0 left-0 bg-black bg-opacity-30;
 }
 
-.content {
-  @apply p-4 bg-white self-start mt-32 max-w-screen-md;
+#content {
+  @apply max-w-screen-md mt-32 p-4 self-start bg-white;
 }
 
 button {
-  @apply text-white mt-8 bg-weather-primary py-2 px-6;
+  @apply mt-8 py-2 px-6 text-white bg-weather-primary;
 }
 
 .modal-outer-enter-active,
@@ -58,4 +58,3 @@ button {
   transform: scale(0.8);
 }
 </style>
-1
