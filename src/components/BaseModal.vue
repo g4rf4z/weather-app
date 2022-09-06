@@ -28,7 +28,7 @@ defineEmits(["close-modal"]);
 }
 
 #content {
-  @apply max-w-screen-md mt-32 p-4 self-start bg-white;
+  @apply max-w-screen-md mt-36 p-4 self-start bg-white;
 }
 
 button {

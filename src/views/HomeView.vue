@@ -5,10 +5,10 @@
         v-model="searchQuery"
         @input="getSearchResult"
         type="text"
-        placeholder="Search for a city or state"
+        placeholder="Search for a city"
       />
       <ul v-if="searchResult">
-        <p v-if="searchError">Sorry, something went wrong, please try again.</p>
+        <p v-if="searchError">Something went wrong, please try again.</p>
         <p v-if="!searchError && searchResult.length === 0">
           No result match with your query, try a different term.
         </p>
@@ -29,16 +29,32 @@
 <script setup>
 import { ref } from "vue";
 import axios from "axios";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+const previewCity = (searchResult) => {
+  const [city, state] = searchResult.place_name.split(",");
+  router.push({
+    name: "city",
+    params: { city: city, state: state.replaceAll(" ", "") },
+    query: {
+      lng: searchResult.geometry.coordinates[0],
+      lat: searchResult.geometry.coordinates[1],
+      preview: true,
+    },
+  });
+};
 
 const apiKey =
   "pk.eyJ1Ijoiam9obmtvbWFybmlja2kiLCJhIjoiY2t5NjFzODZvMHJkaDJ1bWx6OGVieGxreSJ9.IpojdT3U3NENknF6_WhR2Q";
+
 const searchQuery = ref("");
-const queryTimeout = ref(null);
+const timeoutQuery = ref(null);
 const searchResult = ref(null);
 const searchError = ref(null);
 const getSearchResult = () => {
-  clearTimeout(queryTimeout.value);
-  queryTimeout.value = setTimeout(async () => {
+  clearTimeout(timeoutQuery.value);
+  timeoutQuery.value = setTimeout(async () => {
     if (searchQuery.value !== "") {
       try {
         const result = await axios.get(
@@ -69,7 +85,7 @@ input {
 }
 
 ul {
-  @apply w-full py-2 px-1 absolute top-[65px] text-white bg-weather-secondary shadow-md;
+  @apply w-full py-2 px-1 absolute top-[64px] text-white bg-weather-secondary shadow-md;
 }
 
 p {
