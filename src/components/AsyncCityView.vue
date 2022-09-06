@@ -3,15 +3,15 @@
     <!-- Banner -->
     <div id="banner" v-if="route.query.preview">
       <p>
-        You are currently previewing this city, click the "+" icon to start
-        tracking this city.
+        You are currently previewing {{ route.params.city }}. Click the
+        <i class="fa-solid fa-plus"></i> icon to start tracking this city.
       </p>
     </div>
 
     <!-- Weather overview -->
     <div id="weather-overview">
       <h1>{{ route.params.city }}, {{ route.params.state }}</h1>
-      <p id="date-time-display">
+      <p id="date-time">
         {{
           new Date(weatherData.currentTime).toLocaleDateString("en", {
             weekday: "long",
@@ -20,17 +20,15 @@
           })
         }}
         {{
-          new Date(weatherData.currentTime).toLocaleTimeString("en", {
+          new Date(weatherData.currentTime).toLocaleTimeString("fr", {
             timeStyle: "short",
           })
         }}
       </p>
-      <p id="temperature-display">
-        {{ Math.round(weatherData.current.temp) }}&deg;C
-      </p>
+      <p id="temperature">{{ Math.round(weatherData.current.temp) }}&deg;C</p>
 
-      <!-- Details overview -->
-      <div id="details-overview">
+      <!-- Weather details -->
+      <div id="weather-details">
         <p>
           Description:
           {{ weatherData.current.weather[0].description }}
@@ -44,7 +42,7 @@
           {{ weatherData.current.humidity }}&percnt;
         </p>
         <img
-          id="current-weather-icon"
+          id="weather-icon"
           :src="`http://openweathermap.org/img/wn/${weatherData.current.weather[0].icon}@2x.png`"
           alt="Icon"
         />
@@ -56,26 +54,53 @@
     <!-- Hourly weather -->
     <div id="hourly-weather-overview">
       <div class="mx-8 text-white">
-        <h2>Hourly Weather</h2>
-        <div class="flex gap-10 overflow-x-scroll">
+        <h2>Hourly weather</h2>
+        <div class="flex gap-8 overflow-x-scroll">
           <div
-            class="flex flex-col gap-4 items-center"
-            v-for="weatherForecast in weatherData.hourly"
-            :key="weatherForecast.dt"
+            id="hourly-weather"
+            v-for="hour in weatherData.hourly"
+            :key="hour.dt"
           >
-            <p class="whitespace-nowrap text-md">
+            <p id="hour">
               {{
-                new Date(weatherForecast.currentTime).toLocaleTimeString("en", {
+                new Date(hour.currentTime).toLocaleTimeString("fr", {
                   hour: "numeric",
                 })
               }}
             </p>
             <img
-              class="w-auto h-[50px] object-cover"
-              :src="`http://openweathermap.org/img/wn/${weatherForecast.weather[0].icon}@2x.png`"
+              id="hourly-weather-icon"
+              :src="`http://openweathermap.org/img/wn/${hour.weather[0].icon}@2x.png`"
               alt="Icon"
             />
-            <p class="text-xl">{{ Math.round(weatherForecast.temp) }}&deg;C</p>
+            <p class="text-xl">{{ Math.round(hour.temp) }}&deg;C</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr />
+
+    <!-- Daily weather -->
+    <div id="daily-weather-overview">
+      <div class="mx-8 text-white">
+        <h2>Seven days forecast</h2>
+        <div id="daily-weather" v-for="day in weatherData.daily" :key="day.dt">
+          <p class="flex-1">
+            {{
+              new Date(day.dt * 1000).toLocaleDateString("en", {
+                weekday: "long",
+              })
+            }}
+          </p>
+          <img
+            id="daily-weather-icon"
+            :src="`http://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`"
+            alt="Icon"
+          />
+          <div id="daily-temperature">
+            <p>Max.Temp: {{ Math.round(day.temp.max) }}&deg;C</p>
+            <p>Min.Temp: {{ Math.round(day.temp.min) }}&deg;C</p>
           </div>
         </div>
       </div>
@@ -94,13 +119,11 @@ const getWeatherData = async () => {
       `https://api.openweathermap.org/data/2.5/onecall?lat=${route.query.lat}&lon=${route.query.lng}&exclude={part}&appid=7efa332cf48aeb9d2d391a51027f1a71&units=metric`
     );
 
-    // Call current date and time
     const localOffset = new Date().getTimezoneOffset() * 60000;
     const utc = weatherData.data.current.dt * 1000 + localOffset;
     weatherData.data.currentTime =
       utc + 1000 * weatherData.data.timezone_offset;
 
-    // Call hourly weather offset
     weatherData.data.hourly.forEach((hour) => {
       const utc = hour.dt * 1000 + localOffset;
       hour.currentTime = utc + 1000 * weatherData.data.timezone_offset;
@@ -131,19 +154,19 @@ h1 {
   @apply mb-2 text-4xl;
 }
 
-#date-time-display {
+#date-time {
   @apply mb-12 text-sm capitalize;
 }
 
-#temperature-display {
+#temperature {
   @apply mb-8 text-8xl;
 }
 
-#details-overview {
+#weather-details {
   @apply text-center;
 }
 
-#current-weather-icon {
+#weather-icon {
   @apply h-auto w-[100%];
 }
 
@@ -152,10 +175,38 @@ hr {
 }
 
 #hourly-weather-overview {
-  @apply w-full max-w-screen-md py-12;
+  @apply w-full py-12 max-w-screen-md;
 }
 
 h2 {
   @apply mb-4;
+}
+
+#hourly-weather {
+  @apply gap-4 flex flex-col items-center;
+}
+
+#hour {
+  @apply whitespace-nowrap;
+}
+
+#hourly-weather-icon {
+  @apply h-auto w-[50px] object-cover;
+}
+
+#daily-weather-overview {
+  @apply w-full max-w-screen-md py-12;
+}
+
+#daily-weather {
+  @apply flex items-center;
+}
+
+#daily-weather-icon {
+  @apply h-auto w-[50px] object-cover;
+}
+
+#daily-temperature {
+  @apply flex flex-1 gap-2 justify-end;
 }
 </style>
