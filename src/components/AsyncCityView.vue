@@ -128,6 +128,10 @@ const getWeatherData = async () => {
       const utc = hour.dt * 1000 + localOffset;
       hour.currentTime = utc + 1000 * weatherData.data.timezone_offset;
     });
+
+    weatherData.data.hourly = weatherData.data.hourly.splice(0, 24);
+    weatherData.data.daily = weatherData.data.daily.splice(0, 7);
+
     return weatherData.data;
   } catch (err) {
     console.log(err);
@@ -135,15 +139,6 @@ const getWeatherData = async () => {
 };
 const weatherData = await getWeatherData();
 console.log(weatherData);
-
-// Get 24 values from hourly array __________________________________________________
-const hourlyArray = weatherData.data.hourly;
-function retrieveRow(hourlyArray) {
-  return hourlyArray <= 23;
-}
-const getValue = hourlyArray.filter(retrieveRow);
-console.log(getValue);
-// __________________________________________________
 </script>
 
 <style lang="scss" scoped>
