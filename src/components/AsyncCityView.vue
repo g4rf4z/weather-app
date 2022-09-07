@@ -128,6 +128,15 @@ const getWeatherData = async () => {
       const utc = hour.dt * 1000 + localOffset;
       hour.currentTime = utc + 1000 * weatherData.data.timezone_offset;
     });
+
+    // Get 24 values from hourly array
+    const hourlyArray = new Array(weatherData.data.hourly.length);
+    function filterHourlyArray(hourlyArray) {
+      return (hourlyArray = 23);
+    }
+    const getValueHourlyArray = hourlyArray.filter(filterHourlyArray);
+    console.log(getValueHourlyArray);
+
     return weatherData.data;
   } catch (err) {
     console.log(err);
