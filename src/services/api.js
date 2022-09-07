@@ -3,11 +3,10 @@ import axios from "axios";
 const apiUri = import.meta.env.VITE_API_URI;
 
 const apiClient = axios.create({
-  baseURL: apiUri,
+  // baseURL: apiUri,
   timeout: 10000,
   headers: {
-    "Content-Type": "application/json;charset=utf-8",
-    datatype: "json",
+    "Content-Type": "application/json; charset=utf-8",
   },
 });
 
@@ -16,6 +15,7 @@ const apiWrapper = {
 
   get: async function (...args) {
     try {
+      console.log(this.instance);
       return await this.instance.get(...args);
     } catch (error) {
       console.error({ ...error });
