@@ -15,7 +15,11 @@ const apiWrapper = {
 
   get: async function (...args) {
     try {
+<<<<<<< HEAD
       console.log(this.instance);
+=======
+      console.log(this.instance)
+>>>>>>> 122a4ed675568d6c57b67b8189b27fd6363a55af
       return await this.instance.get(...args);
     } catch (error) {
       console.error({ ...error });
