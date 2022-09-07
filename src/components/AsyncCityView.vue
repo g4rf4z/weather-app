@@ -137,7 +137,7 @@ const weatherData = await getWeatherData();
 console.log(weatherData);
 
 // Get 24 values from hourly array __________________________________________________
-const hourlyArray = weatherData.data.currentTime;
+const hourlyArray = weatherData.data.hourly;
 function retrieveRow(hourlyArray) {
   return hourlyArray <= 23;
 }
