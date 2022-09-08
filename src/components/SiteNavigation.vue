@@ -14,6 +14,8 @@
         ></i>
         <i
           class="fa-solid fa-plus text-xl hover:text-weather-secondary duration-150 cursor-pointer"
+          v-if="route.query.preview"
+          @click="addCity"
         ></i>
       </div>
       <BaseModal :modalActive="modalActive" @close-modal="toggleModal"
@@ -52,12 +54,53 @@
 
 <script setup>
 import { ref } from "vue";
-import { RouterLink } from "vue-router";
+import { RouterLink, useRoute, useRouter } from "vue-router";
 import BaseModal from "./BaseModal.vue";
+import { uid } from "uid";
 
 const modalActive = ref(null);
 const toggleModal = () => {
   modalActive.value = !modalActive.value;
+};
+
+// _________________________ Add a city to the local storage _________________________
+// _________________________ Set an addCity function
+const route = useRoute();
+
+const router = useRouter();
+
+const storeCity = ref([]);
+
+const retrieveCity = localStorage.getItem(storeCity);
+
+const parseCity = JSON.parse(localStorage.getItem(storeCity));
+
+const addCity = () => {
+  if (retrieveCity) {
+    storeCity.value = parseCity;
+  }
+
+  // _________________________ Create a city object
+  const cityObj = {
+    id: uid(),
+    city: route.params.city,
+    state: route.params.state,
+
+    Coordinates: {
+      lat: route.query.lat,
+      lng: route.query.lng,
+    },
+  };
+
+  // _________________________ Push data into the local storage
+  storeCity.value.push(cityObj);
+  localStorage.setItem(storeCity, JSON.stringify(storeCity.value));
+
+  // _________________________ Delete the preview
+  let query = Object.assign({}, route.query);
+
+  delete query.preview;
+  router.replace({ query });
 };
 </script>
 

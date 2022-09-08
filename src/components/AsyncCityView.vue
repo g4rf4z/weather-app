@@ -1,6 +1,6 @@
 <template>
   <div id="container">
-    <!-- Banner -->
+    <!------------------------- Banner ------------------------->
     <div id="banner" v-if="route.query.preview">
       <p>
         You are currently previewing {{ route.params.city }}. Click the
@@ -8,7 +8,7 @@
       </p>
     </div>
 
-    <!-- Weather overview -->
+    <!------------------------- Weather overview ------------------------->
     <div id="weather-overview">
       <h1>{{ route.params.city }}, {{ route.params.state }}</h1>
       <p id="date-time">
@@ -27,7 +27,7 @@
       </p>
       <p id="temperature">{{ Math.round(weatherData.current.temp) }}&deg;C</p>
 
-      <!-- Weather details -->
+      <!------------------------- Weather details ------------------------->
       <div id="weather-details">
         <p>
           Description:
@@ -51,7 +51,7 @@
 
     <hr />
 
-    <!-- Hourly weather -->
+    <!------------------------- Hourly weather ------------------------->
     <div id="hourly-weather-overview">
       <div class="mx-8 text-white">
         <h2>Hourly weather</h2>
@@ -81,7 +81,7 @@
 
     <hr />
 
-    <!-- Daily weather -->
+    <!------------------------- Daily weather ------------------------->
     <div id="daily-weather-overview">
       <div class="mx-8 text-white">
         <h2>Seven days forecast</h2>
@@ -109,13 +109,14 @@
 </template>
 
 <script setup>
-import axios from "axios";
+import { apiWrapper } from "@/services/api";
 import { useRoute } from "vue-router";
 
 const route = useRoute();
+
 const getWeatherData = async () => {
   try {
-    const weatherData = await axios.get(
+    const weatherData = await apiWrapper.get(
       `https://api.openweathermap.org/data/2.5/onecall?lat=${route.query.lat}&lon=${route.query.lng}&exclude={part}&appid=7efa332cf48aeb9d2d391a51027f1a71&units=metric`
     );
 
