@@ -63,8 +63,7 @@ const toggleModal = () => {
   modalActive.value = !modalActive.value;
 };
 
-// _________________________ Add a city to the local storage _________________________
-// _________________________ Set an addCity function
+// _________________________ Add a city to the local storage
 const route = useRoute();
 
 const router = useRouter();
@@ -80,7 +79,7 @@ const addCity = () => {
     storeCity.value = parseCity;
   }
 
-  // _________________________ Create a city object
+  // Create a city object
   const cityObj = {
     id: uid(),
     city: route.params.city,
@@ -92,16 +91,17 @@ const addCity = () => {
     },
   };
 
-  // _________________________ Push data into the local storage
+  // Push data into the local storage
   storeCity.value.push(cityObj);
   localStorage.setItem(storeCity, JSON.stringify(storeCity.value));
 
-  // _________________________ Delete the preview
+  // Delete the banner, plus icon and link preview
   let query = Object.assign({}, route.query);
 
   delete query.preview;
   router.replace({ query });
 };
+// ___________________________________________________________________________
 </script>
 
 <style lang="scss">
