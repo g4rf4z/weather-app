@@ -119,9 +119,9 @@ console.log(apiKey);
 
 const getWeatherData = async () => {
   try {
-    const weatherData = await apiWrapper.get(
-      `https://api.openweathermap.org/data/2.5/onecall?lat=${route.query.lat}&lon=${route.query.lng}&exclude={part}&appid=apiKey&units=metric`
-    );
+    const apiRoute = `https://api.openweathermap.org/data/2.5/onecall?lat=${route.query.lat}&lon=${route.query.lng}&exclude={part}&appid=${apiKey}&units=metric`;
+    console.log(apiRoute);
+    const weatherData = await apiWrapper.get(apiRoute);
 
     const localOffset = new Date().getTimezoneOffset() * 60000;
     const utc = weatherData.data.current.dt * 1000 + localOffset;
