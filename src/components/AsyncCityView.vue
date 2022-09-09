@@ -115,7 +115,6 @@ import { useRoute } from "vue-router";
 const route = useRoute();
 
 const apiKey = import.meta.env.VITE_APP_API_KEY;
-console.log(apiKey);
 
 const getWeatherData = async () => {
   try {
