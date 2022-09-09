@@ -45,9 +45,7 @@ const previewCity = (searchResult) => {
   });
 };
 
-const apiKey =
-  "pk.eyJ1Ijoiam9obmtvbWFybmlja2kiLCJhIjoiY2t5NjFzODZvMHJkaDJ1bWx6OGVieGxreSJ9.IpojdT3U3NENknF6_WhR2Q";
-
+const mapboxApiKey = import.meta.env.VITE_APP_MAPBOX_API_KEY;
 const searchQuery = ref("");
 const timeoutQuery = ref(null);
 const searchResult = ref(null);
@@ -58,7 +56,7 @@ const getSearchResult = () => {
     if (searchQuery.value !== "") {
       try {
         const result = await axios.get(
-          `https://api.mapbox.com/geocoding/v5/mapbox.places/${searchQuery.value}.json?access_token=${apiKey}&types=place`
+          `https://api.mapbox.com/geocoding/v5/mapbox.places/${searchQuery.value}.json?access_token=${mapboxApiKey}&types=place`
         );
         searchResult.value = result.data.features;
       } catch {

@@ -114,12 +114,13 @@ import { useRoute } from "vue-router";
 
 const route = useRoute();
 
-const apiKey = import.meta.env.VITE_APP_API_KEY;
+const apiKey = import.meta.env.VITE_APP_OPEN_WEATHER_API_KEY;
 
 const getWeatherData = async () => {
   try {
     const apiRoute = `https://api.openweathermap.org/data/2.5/onecall?lat=${route.query.lat}&lon=${route.query.lng}&exclude={part}&appid=${apiKey}&units=metric`;
     console.log(apiRoute);
+
     const weatherData = await apiWrapper.get(apiRoute);
 
     const localOffset = new Date().getTimezoneOffset() * 60000;

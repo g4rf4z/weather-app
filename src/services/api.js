@@ -3,7 +3,7 @@ import axios from "axios";
 const apiUri = import.meta.env.VITE_API_URI;
 
 const apiClient = axios.create({
-  // baseURL: apiUri,
+  baseURL: apiUri,
   timeout: 10000,
   headers: {
     "Content-Type": "application/json; charset=utf-8",
