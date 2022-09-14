@@ -109,40 +109,14 @@
 </template>
 
 <script setup>
-import { apiWrapper } from "@/services/api";
+import { computed } from "vue";
 import { useRoute } from "vue-router";
+import { useWeatherStore } from "@/store/weather";
 
 const route = useRoute();
-
-const apiKey = import.meta.env.VITE_APP_OPEN_WEATHER_API_KEY;
-
-const getWeatherData = async () => {
-  try {
-    const apiRoute = `https://api.openweathermap.org/data/2.5/onecall?lat=${route.query.lat}&lon=${route.query.lng}&exclude={part}&appid=${apiKey}&units=metric`;
-    console.log(apiRoute);
-
-    const weatherData = await apiWrapper.get(apiRoute);
-
-    const localOffset = new Date().getTimezoneOffset() * 60000;
-    const utc = weatherData.data.current.dt * 1000 + localOffset;
-    weatherData.data.currentTime =
-      utc + 1000 * weatherData.data.timezone_offset;
-
-    weatherData.data.hourly.forEach((hour) => {
-      const utc = hour.dt * 1000 + localOffset;
-      hour.currentTime = utc + 1000 * weatherData.data.timezone_offset;
-    });
-
-    weatherData.data.hourly = weatherData.data.hourly.splice(0, 24);
-    weatherData.data.daily = weatherData.data.daily.splice(0, 7);
-
-    return weatherData.data;
-  } catch (err) {
-    console.log(err);
-  }
-};
-const weatherData = await getWeatherData();
-console.log(weatherData);
+const weatherStore = useWeatherStore();
+const weatherData = computed(() => weatherStore.weatherData);
+await weatherStore.fetchWeatherData(route.query.lat, route.query.lng);
 </script>
 
 <style lang="scss" scoped>
