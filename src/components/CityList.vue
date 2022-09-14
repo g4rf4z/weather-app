@@ -1,11 +1,15 @@
 <template>
   <div v-for="city in storedCity" :key="city.id">
-    <CityCard :city="city" />
+    <CityCard :city="city" @click="goToCityView(city)" />
   </div>
+  <p v-if="storedCity.length === 0">
+    No locations added. To start tracking a location, search in the field above.
+  </p>
 </template>
 
 <script setup>
 import { ref } from "vue";
+import { useRouter } from "vue-router";
 import { apiWrapper } from "../services/api";
 import CityCard from "./CityCard.vue";
 
@@ -39,6 +43,15 @@ const retrieveCity = async () => {
   }
 };
 await retrieveCity();
+
+const router = useRouter();
+const goToCityView = (city) => {
+  router.push({
+    name: "cityView",
+    params: { state: city.state, city: city.city },
+    query: { lat: city.Coordinates.lat, lng: city.Coordinates.lng },
+  });
+};
 </script>
 
 <style lang="scss" scoped></style>
