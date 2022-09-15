@@ -31,9 +31,8 @@ const useWeatherStore = defineStore({
         cleanWeatherData.daily = cleanWeatherData.daily.splice(0, 7);
 
         return (this.weatherData = cleanWeatherData);
-      } catch (err) {
-        console.log("tata");
-        console.log(err);
+      } catch (error) {
+        console.log(error);
       }
     },
   },
