@@ -114,6 +114,7 @@ import { useRoute } from "vue-router";
 import { useWeatherStore } from "@/store/weather";
 
 const route = useRoute();
+// Reference: export useWeatherStore() from store/weather.js
 const weatherStore = useWeatherStore();
 const weatherData = computed(() => weatherStore.weatherData);
 await weatherStore.fetchWeatherData(route.query.lat, route.query.lng);
