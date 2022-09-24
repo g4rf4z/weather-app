@@ -23,21 +23,32 @@
         </template>
       </ul>
     </div>
+    <div>
+      <Suspense>
+        <CityList />
+        <template #fallback>
+          <p>Loading...</p>
+        </template>
+      </Suspense>
+    </div>
   </main>
 </template>
 
 <script setup>
-import { ref } from "vue";
-import axios from "axios";
+import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
+import CityList from "../components/CityList.vue";
+import { useMapStore } from "../store/map";
 
 const router = useRouter();
+const mapStore = useMapStore();
+await mapStore.fetchMapData();
 
 const previewCity = (searchResult) => {
-  const [city, state] = searchResult.place_name.split(",");
+  const [city, state, country] = searchResult.place_name.split(",");
   router.push({
     name: "city",
-    params: { city: city, state: state },
+    params: { city, state, country },
     query: {
       lng: searchResult.geometry.coordinates[0],
       lat: searchResult.geometry.coordinates[1],
@@ -46,26 +57,18 @@ const previewCity = (searchResult) => {
   });
 };
 
-const mapboxApiKey = import.meta.env.VITE_APP_MAPBOX_API_KEY;
 const searchQuery = ref("");
 const timeoutQuery = ref(null);
-const searchResult = ref(null);
-const searchError = ref(null);
+const searchResult = computed(() => mapStore.searchResult);
+const searchError = computed(() => mapStore.searchError);
+
 const getSearchResult = () => {
   clearTimeout(timeoutQuery.value);
   timeoutQuery.value = setTimeout(async () => {
     if (searchQuery.value !== "") {
-      try {
-        const result = await axios.get(
-          `https://api.mapbox.com/geocoding/v5/mapbox.places/${searchQuery.value}.json?access_token=${mapboxApiKey}&types=place`
-        );
-        searchResult.value = result.data.features;
-      } catch {
-        searchError.value = true;
-      }
-      return;
+      mapStore.fetchMapData(searchQuery.value);
     }
-    searchResult.value = null;
+    mapStore.mapData = {};
   }, 300);
 };
 </script>

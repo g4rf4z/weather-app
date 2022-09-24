@@ -1,7 +1,9 @@
 <template>
   <div class="app-container">
     <site-navigation />
-    <router-view />
+    <suspense>
+      <router-view />
+    </suspense>
   </div>
 </template>
 

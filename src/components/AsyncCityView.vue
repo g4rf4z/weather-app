@@ -10,7 +10,10 @@
 
     <!------------------------- Weather overview ------------------------->
     <div id="weather-overview">
-      <h1>{{ route.params.city }}, {{ route.params.state }}</h1>
+      <h1>
+        {{ route.params.city }}, {{ route.params.state }},
+        {{ route.params.country }}
+      </h1>
       <p id="date-time">
         {{
           new Date(weatherData.currentTime).toLocaleDateString("en", {

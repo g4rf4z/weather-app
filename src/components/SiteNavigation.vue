@@ -84,8 +84,9 @@ const addCity = () => {
     id: uid(),
     city: route.params.city,
     state: route.params.state,
+    country: route.params.country,
 
-    Coordinates: {
+    coordinates: {
       lat: route.query.lat,
       lng: route.query.lng,
     },
@@ -93,7 +94,7 @@ const addCity = () => {
 
   // Push data into the local storage
   storeCity.value.push(cityObj);
-  localStorage.setItem(storeCity, JSON.stringify(storeCity.value));
+  localStorage.setItem("storeCity", JSON.stringify(storeCity.value));
 
   // Delete the banner, plus icon and link preview
   let query = Object.assign({}, route.query);
@@ -101,7 +102,6 @@ const addCity = () => {
   delete query.preview;
   router.replace({ query });
 };
-// ___________________________________________________________________________
 </script>
 
 <style lang="scss">

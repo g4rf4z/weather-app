@@ -25,14 +25,11 @@ const retrieveCity = async () => {
     storedCity.value = parseCity;
 
     const request = [];
-    const openWeatherKey = import.meta.env.VITE_APP_OPEN_WEATHER_API_KEY;
+    const apiKey = import.meta.env.VITE_APP_OPEN_WEATHER_API_KEY;
+    const apiRoute = `https://api.openweathermap.org/data/2.5/weather?lat=${city.coordinates.lat}&lon=${city.coordinates.lng}&appid=${apiKey}&units=metric`;
 
     storedCity.value.forEach((city) => {
-      request.push(
-        apiWrapper.get(
-          `https://api.openweathermap.org/data/2.5/weather?lat=${city.Coordinates.lat}&lon=${city.Coordinates.lng}&appid=${openWeatherKey}&units=metric`
-        )
-      );
+      request.push(apiWrapper.get(apiRoute));
     });
 
     const weatherData = await Promise.all(request);
