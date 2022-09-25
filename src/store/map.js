@@ -15,10 +15,9 @@ const useMapStore = defineStore({
 
   actions: {
     async fetchMapData(searchQuery) {
+      const apiRoute = `https://api.mapbox.com/geocoding/v5/mapbox.places/${searchQuery}.json?access_token=${this.apiKey}&types=place`;
       try {
-        const foundMapData = await apiWrapper.get(
-          `https://api.mapbox.com/geocoding/v5/mapbox.places/${searchQuery}.json?access_token=${this.apiKey}&types=place`
-        );
+        const foundMapData = await apiWrapper.get(apiRoute);
         this.mapData = foundMapData.data;
       } catch {
         this.searchError = true;

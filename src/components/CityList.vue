@@ -25,10 +25,10 @@ const retrieveCity = async () => {
     storedCity.value = parseCity;
 
     const request = [];
-    const apiKey = import.meta.env.VITE_APP_OPEN_WEATHER_API_KEY;
-    const apiRoute = `https://api.openweathermap.org/data/2.5/weather?lat=${city.coordinates.lat}&lon=${city.coordinates.lng}&appid=${apiKey}&units=metric`;
 
     storedCity.value.forEach((city) => {
+      const apiKey = import.meta.env.VITE_APP_OPEN_WEATHER_API_KEY;
+      const apiRoute = `https://api.openweathermap.org/data/2.5/weather?lat=${city.coordinates.lat}&lon=${city.coordinates.lng}&appid=${apiKey}&units=metric`;
       request.push(apiWrapper.get(apiRoute));
     });
 
@@ -46,7 +46,7 @@ const goToCityView = (city) => {
   router.push({
     name: "cityView",
     params: { state: city.state, city: city.city },
-    query: { lat: city.Coordinates.lat, lng: city.Coordinates.lng },
+    query: { lat: city.coordinates.lat, lng: city.coordinates.lng },
   });
 };
 </script>

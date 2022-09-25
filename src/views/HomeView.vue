@@ -58,13 +58,13 @@ const previewCity = (searchResult) => {
 };
 
 const searchQuery = ref("");
-const timeoutQuery = ref(null);
+const queryDisplayTimeout = ref(null);
 const searchResult = computed(() => mapStore.searchResult);
 const searchError = computed(() => mapStore.searchError);
 
 const getSearchResult = () => {
-  clearTimeout(timeoutQuery.value);
-  timeoutQuery.value = setTimeout(async () => {
+  clearTimeout(queryDisplayTimeout.value);
+  queryDisplayTimeout.value = setTimeout(async () => {
     if (searchQuery.value !== "") {
       mapStore.fetchMapData(searchQuery.value);
     }
