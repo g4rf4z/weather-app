@@ -68,16 +68,18 @@ const route = useRoute();
 
 const router = useRouter();
 
-const storeCity = ref([]);
+const storedCity = ref([]);
 
-const retrieveCity = localStorage.getItem(storeCity);
+const retrievedCity = localStorage.getItem("storedCity");
 
-const parseCity = JSON.parse(localStorage.getItem(storeCity));
+const parsedCity = JSON.parse(retrievedCity);
 
 const addCity = () => {
-  if (retrieveCity) {
-    storeCity.value = parseCity;
+  if (retrievedCity) {
+    storedCity.value = parsedCity;
   }
+
+  console.log(storedCity.value);
 
   // Create a city object
   const cityObj = {
@@ -93,8 +95,8 @@ const addCity = () => {
   };
 
   // Push data into the local storage
-  storeCity.value.push(cityObj);
-  localStorage.setItem("storeCity", JSON.stringify(storeCity.value));
+  storedCity.value.push(cityObj);
+  localStorage.setItem("storedCity", JSON.stringify(storedCity.value));
 
   // Delete the banner, plus icon and link preview
   let query = Object.assign({}, route.query);

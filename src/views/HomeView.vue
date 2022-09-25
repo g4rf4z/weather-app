@@ -7,20 +7,18 @@
         type="text"
         placeholder="Search for a city"
       />
-      <ul v-if="searchResult">
-        <p v-if="searchError">Something went wrong, please try again.</p>
-        <p v-if="!searchError && searchResult.length === 0">
+      <ul v-if="searchResult || searchError">
+        <li v-if="searchError">Something went wrong, please try again.</li>
+        <li
+          v-for="result in searchResult"
+          @click="previewCity(result)"
+          :key="result.id"
+        >
+          {{ result.place_name }}
+        </li>
+        <li v-if="searchQuery.length > 0">
           No result match with your query, try a different term.
-        </p>
-        <template v-else>
-          <li
-            v-for="searchResult in searchResult"
-            @click="previewCity(searchResult)"
-            :key="searchResult.id"
-          >
-            {{ searchResult.place_name }}
-          </li>
-        </template>
+        </li>
       </ul>
     </div>
     <div>
@@ -40,6 +38,7 @@ import { useRouter } from "vue-router";
 import CityList from "../components/CityList.vue";
 import { useMapStore } from "../store/map";
 
+const savedCities = computed(() => localStorage.getItem("storedCity"));
 const router = useRouter();
 const mapStore = useMapStore();
 await mapStore.fetchMapData();
@@ -87,7 +86,7 @@ input {
 }
 
 ul {
-  @apply w-full py-2 px-1 absolute top-[64px] text-white bg-weather-secondary shadow-md;
+  @apply w-full mt-2 text-white bg-weather-secondary shadow-md;
 }
 
 p {
@@ -95,6 +94,6 @@ p {
 }
 
 li {
-  @apply py-2 cursor-pointer;
+  @apply py-2 px-1 cursor-pointer;
 }
 </style>

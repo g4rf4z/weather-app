@@ -1,10 +1,13 @@
 <template>
-  <div v-for="city in storedCity" :key="city.id">
-    <CityCard :city="city" @click="goToCityView(city)" />
+  <div class="cities">
+    <div v-for="city in storedCity" :key="city.id">
+      <CityCard :city="city" @click="goToCityView(city)" />
+    </div>
+    <p v-if="storedCity.length === 0">
+      No locations added. To start tracking a location, search in the field
+      above.
+    </p>
   </div>
-  <p v-if="storedCity.length === 0">
-    No locations added. To start tracking a location, search in the field above.
-  </p>
 </template>
 
 <script setup>
@@ -43,4 +46,8 @@ const goToCityView = (city) => {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.cities {
+  @apply flex flex-col space-y-2;
+}
+</style>
