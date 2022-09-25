@@ -1,13 +1,11 @@
 <template>
-  <div
-    class="flex py-6 px-3 bg-weather-secondary rounded-md shadow-md cursor-pointer"
-  >
-    <div class="flex flex-col flex-1">
-      <h2 class="text-3xl">{{ city.city }}</h2>
-      <h3>{{ city.state }}</h3>
+  <div id="container">
+    <div id="city-state">
+      <h2 id="city">{{ city.city }}</h2>
+      <h3 id="state">{{ city.state }}</h3>
     </div>
-    <div class="flex flex-col gap-2">
-      <p class="text-3xl self-end">
+    <div id="temperature-overview">
+      <p id="temperature">
         {{ Math.round(city.weather.main.temp) }}&deg;
       </p>
       <div class="flex gap-2">
@@ -33,4 +31,24 @@ defineProps({
 });
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+#container {
+  @apply py-6 px-3 flex rounded-md bg-weather-secondary shadow-md cursor-pointer;
+}
+
+#city-state {
+  @apply flex flex-col flex-1;
+}
+
+#city {
+  @apply text-3xl;
+}
+
+#temperature-overview {
+  @apply flex flex-col gap-2;
+}
+
+#temperature {
+  @apply text-3xl self-end;
+}
+</style>
