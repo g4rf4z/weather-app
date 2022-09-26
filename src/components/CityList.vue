@@ -30,6 +30,7 @@ const retrieveCity = async () => {
     });
 
     const weatherData = await Promise.all(cityArray);
+    await new Promise((timeout) => setTimeout(timeout, 1000));
     weatherData.forEach((value, index) => {
       storedCity.value[index].weather = value.data;
     });
@@ -42,7 +43,11 @@ const goToCityView = (city) => {
   router.push({
     name: "cityView",
     params: { city: city.city, state: city.state, country: city.country },
-    query: { lat: city.coordinates.lat, lng: city.coordinates.lng },
+    query: {
+      id: city.id,
+      lat: city.coordinates.lat,
+      lng: city.coordinates.lng,
+    },
   });
 };
 </script>

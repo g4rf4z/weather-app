@@ -25,7 +25,7 @@
       <Suspense>
         <CityList />
         <template #fallback>
-          <p>Loading...</p>
+          <CityCardSkeleton />
         </template>
       </Suspense>
     </div>
@@ -37,6 +37,7 @@ import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
 import CityList from "../components/CityList.vue";
 import { useMapStore } from "../store/map";
+import CityCardSkeleton from "../components/CityCardSkeleton.vue";
 
 const savedCities = computed(() => localStorage.getItem("storedCity"));
 const router = useRouter();
@@ -68,7 +69,7 @@ const getSearchResult = () => {
       mapStore.fetchMapData(searchQuery.value);
     }
     mapStore.mapData = {};
-  }, 300);
+  }, 500);
 };
 </script>
 

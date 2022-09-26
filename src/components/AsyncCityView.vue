@@ -102,10 +102,16 @@
             alt="Icon"
           />
           <div id="daily-temperature">
-            <p>Max.Temp: {{ Math.round(day.temp.max) }}&deg;C</p>
-            <p>Min.Temp: {{ Math.round(day.temp.min) }}&deg;C</p>
+            <p>Min: {{ Math.round(day.temp.min) }}&deg;C</p>
+            <p>Max: {{ Math.round(day.temp.max) }}&deg;C</p>
           </div>
         </div>
+      </div>
+      <div class="delete-btn-group">
+        <DeleteButton @click="deleteCity">
+          <i class="fa-solid fa-trash"></i>
+          <p>Delete {{ route.params.city }} from my favorites</p>
+        </DeleteButton>
       </div>
     </div>
   </div>
@@ -113,13 +119,24 @@
 
 <script setup>
 import { computed } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { useWeatherStore } from "@/store/weather";
+import DeleteButton from "./DeleteButton.vue";
 
 const route = useRoute();
 const weatherStore = useWeatherStore();
 const weatherData = computed(() => weatherStore.weatherData);
 await weatherStore.fetchWeatherData(route.query.lat, route.query.lng);
+
+const router = useRouter();
+const deleteCity = () => {
+  const storedCity = JSON.parse(localStorage.getItem("storedCity"));
+  const updatedCity = storedCity.filter((city) => city.id !== route.query.id);
+  localStorage.setItem("storedCity", JSON.stringify(updatedCity));
+  router.push({
+    name: "home",
+  });
+};
 </script>
 
 <style lang="scss" scoped>
@@ -193,5 +210,8 @@ h2 {
 
 #daily-temperature {
   @apply flex flex-1 gap-2 justify-end;
+}
+.delete-btn-group {
+  @apply py-12 flex justify-center;
 }
 </style>

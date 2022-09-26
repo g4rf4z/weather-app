@@ -22,26 +22,26 @@
         ><div class="text-black">
           <h1 class="text-2xl mb-1">About:</h1>
           <p class="mb-4">
-            The Local Weather allows you to track the current and future weather
-            of cities of your choosing.
+            WeatherApp lets you track current and future weather cities of your
+            choice.
           </p>
           <h2 class="text-2xl">How it works:</h2>
           <ol class="list-decimal list-inside mb-4">
-            <li>Search for a city by entering the name into the search bar.</li>
+            <li>Search for a city by typing its name in the search bar.</li>
             <li>
-              Select a city within the results, this will take you to the
-              current weather for your selection.
+              Select a city from the results, it will take you to the current
+              weather for your selection.
             </li>
             <li>
-              Track the city by clicking on the "+" icon in the top right. This
-              will save the city to view at a later time on the home page.
+              Follow the city by clicking on the "+" icon at the top right. This
+              will save the city to display later on the home page.
             </li>
           </ol>
 
           <h2 class="text-2xl">Removing a city</h2>
           <p>
-            If you no longer wish to track a city, simply select the city within
-            the home page. At the bottom of the page, there will be am option to
+            If you no longer want to follow a city, simply select the city in
+            the home page. At the bottom of the page there will be an option to
             delete the city.
           </p>
         </div>
@@ -61,25 +61,16 @@ const toggleModal = () => {
   modalActive.value = !modalActive.value;
 };
 
-// _________________________ Add a city to the local storage
 const route = useRoute();
-
 const router = useRouter();
-
 const storedCity = ref([]);
-
 const retrievedCity = localStorage.getItem("storedCity");
-
-const parsedCity = JSON.parse(retrievedCity);
 
 const addCity = () => {
   if (retrievedCity) {
-    storedCity.value = parsedCity;
+    storedCity.value = JSON.parse(retrievedCity);
   }
 
-  console.log(storedCity.value);
-
-  // Create a city object
   const cityObj = {
     id: uid(),
     city: route.params.city,
@@ -92,14 +83,13 @@ const addCity = () => {
     },
   };
 
-  // Push data into the local storage
   storedCity.value.push(cityObj);
   localStorage.setItem("storedCity", JSON.stringify(storedCity.value));
 
-  // Delete the banner, plus icon and link preview
   let query = Object.assign({}, route.query);
 
   delete query.preview;
+  query.id = locationObj.id;
   router.replace({ query });
 };
 </script>

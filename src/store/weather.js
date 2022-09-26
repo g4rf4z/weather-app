@@ -28,6 +28,8 @@ const useWeatherStore = defineStore({
           hour.currentTime = utc + 1000 * cleanWeatherData.timezone_offset;
         });
 
+        await new Promise((timeout) => setTimeout(timeout, 1000));
+
         cleanWeatherData.hourly = cleanWeatherData.hourly.splice(0, 24);
         cleanWeatherData.daily = cleanWeatherData.daily.splice(0, 7);
 
