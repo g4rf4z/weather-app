@@ -4,7 +4,7 @@
       <RouterLink :to="{ name: 'home' }">
         <div>
           <i class="fa-solid fa-sun text-2xl"></i>
-          <p class="text-2xl">WeitherApp</p>
+          <p class="text-2xl">WeatherApp</p>
         </div>
       </RouterLink>
       <div class="flex gap-3 flex-1 justify-end">
@@ -27,9 +27,7 @@
           </p>
           <h2 class="text-2xl">How it works:</h2>
           <ol class="list-decimal list-inside mb-4">
-            <li>
-              Search for your city by entering the name into the search bar.
-            </li>
+            <li>Search for a city by entering the name into the search bar.</li>
             <li>
               Select a city within the results, this will take you to the
               current weather for your selection.
