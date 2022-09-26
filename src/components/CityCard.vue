@@ -1,21 +1,21 @@
 <template>
   <div id="container">
-    <div id="city-state">
-      <h2 id="city">{{ city.city }}</h2>
-      <h3 id="state">{{ city.state }}</h3>
+    <div id="city-overview">
+      <h2 id="city-name">{{ city.city }}</h2>
+      <h3 id="state-country-name">{{ city.state }}, {{ city.country }}</h3>
     </div>
     <div id="temperature-overview">
-      <p id="temperature">
+      <p id="current-temperature">
         {{ Math.round(city.weather.main.temp) }}&deg;
       </p>
-      <div class="flex gap-2">
-        <span class="text-xs">
-          H:
-          {{ Math.round(city.weather.main.temp_max) }}&deg;
-        </span>
-        <span class="text-xs">
-          L:
+      <div id="min-max-temperature">
+        <span>
+          Min:
           {{ Math.round(city.weather.main.temp_min) }}&deg;
+        </span>
+        <span>
+          Max:
+          {{ Math.round(city.weather.main.temp_max) }}&deg;
         </span>
       </div>
     </div>
@@ -33,22 +33,30 @@ defineProps({
 
 <style lang="scss" scoped>
 #container {
-  @apply py-6 px-3 flex rounded-md bg-weather-secondary shadow-md cursor-pointer;
+  @apply py-6 px-3 flex rounded-md shadow-md bg-weather-secondary cursor-pointer;
 }
 
-#city-state {
+#city-overview {
   @apply flex flex-col flex-1;
 }
 
-#city {
+#city-name {
   @apply text-3xl;
+}
+
+#state-country-name {
+  @apply mt-2;
 }
 
 #temperature-overview {
   @apply flex flex-col gap-2;
 }
 
-#temperature {
-  @apply text-3xl self-end;
+#current-temperature {
+  @apply self-end text-3xl;
+}
+
+#min-max-temperature {
+  @apply flex gap-2;
 }
 </style>

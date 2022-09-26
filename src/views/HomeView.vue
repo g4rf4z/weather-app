@@ -14,7 +14,7 @@
           @click="previewCity(result)"
           :key="result.id"
         >
-          {{ result.place_name }}
+          <button>{{ result.place_name }}</button>
         </li>
         <li v-if="searchQuery.length > 0">
           No result match with your query, try a different term.
