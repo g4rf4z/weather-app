@@ -14,7 +14,7 @@
         ></i>
         <i
           class="fa-solid fa-plus text-xl hover:text-weather-secondary duration-150 cursor-pointer"
-          v-if="route.query.preview"
+          v-if="route.query.preview || !cityInLocalStorage"
           @click="addCity"
         ></i>
       </div>
@@ -51,7 +51,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import { RouterLink, useRoute, useRouter } from "vue-router";
 import BaseModal from "./BaseModal.vue";
 import { uid } from "uid";
@@ -65,31 +65,41 @@ const route = useRoute();
 const router = useRouter();
 const storedCity = ref([]);
 const retrievedCity = localStorage.getItem("storedCity");
+const currentCity = {
+  id: uid(),
+  city: route.params.city,
+  state: route.params.state,
+  country: route.params.country,
+
+  coordinates: {
+    lat: route.query.lat,
+    lng: route.query.lng,
+  },
+};
+const cityInLocalStorage = computed(() => {
+  const savedCities = JSON.parse(retrievedCity);
+  const foundCity = savedCities.filter(
+    (savedCity) =>
+      savedCity.city === currentCity.city &&
+      savedCity.state === currentCity.state &&
+      savedCity.country === currentCity.country
+  );
+  if (foundCity.lenght > 0) return true;
+  return false;
+});
 
 const addCity = () => {
   if (retrievedCity) {
     storedCity.value = JSON.parse(retrievedCity);
   }
 
-  const cityObj = {
-    id: uid(),
-    city: route.params.city,
-    state: route.params.state,
-    country: route.params.country,
-
-    coordinates: {
-      lat: route.query.lat,
-      lng: route.query.lng,
-    },
-  };
-
-  storedCity.value.push(cityObj);
+  storedCity.value.push(currentCity);
   localStorage.setItem("storedCity", JSON.stringify(storedCity.value));
 
   let query = Object.assign({}, route.query);
 
   delete query.preview;
-  query.id = locationObj.id;
+  query.id = currentCity.id;
   router.replace({ query });
 };
 </script>
