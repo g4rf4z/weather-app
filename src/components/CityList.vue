@@ -41,7 +41,7 @@ await retrieveCity();
 const router = useRouter();
 const goToCityView = (city) => {
   router.push({
-    name: "cityView",
+    name: "city",
     params: { city: city.city, state: city.state, country: city.country },
     query: {
       id: city.id,
