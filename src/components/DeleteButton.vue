@@ -1,6 +1,6 @@
 <template>
   <button class="delete-btn">
-    <slot />
+    <slot></slot>
   </button>
 </template>
 
