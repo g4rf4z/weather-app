@@ -86,7 +86,6 @@ const addCity = () => {
   if (retrievedCity.value) {
     storedCity.value = JSON.parse(retrievedCity.value);
   }
-
   const currentCity = {
     id: uid(),
     city: route.params.city,
@@ -100,12 +99,14 @@ const addCity = () => {
   };
 
   storedCity.value.push(currentCity);
+
   localStorage.setItem("storedCity", JSON.stringify(storedCity.value));
 
   let query = Object.assign({}, route.query);
 
   delete query.preview;
   query.id = currentCity.id;
+
   router.replace({ query });
 };
 </script>
