@@ -17,8 +17,8 @@ const useWeatherStore = defineStore({
       try {
         const foundWeatherData = await apiWrapper.get(apiRoute);
         let cleanWeatherData = foundWeatherData.data;
-        const utc = cleanWeatherData.current.dt * 1000 + timezone;
         const timezone = new Date().getTimezoneOffset() * 60000;
+        const utc = cleanWeatherData.current.dt * 1000 + timezone;
 
         cleanWeatherData.currentTime =
           utc + 1000 * cleanWeatherData.timezone_offset;
