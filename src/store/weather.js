@@ -17,14 +17,14 @@ const useWeatherStore = defineStore({
       try {
         const foundWeatherData = await apiWrapper.get(apiRoute);
         let cleanWeatherData = foundWeatherData.data;
+        const utc = cleanWeatherData.current.dt * 1000 + timezone;
+        const timezone = new Date().getTimezoneOffset() * 60000;
 
-        const localOffset = new Date().getTimezoneOffset() * 60000;
-        const utc = cleanWeatherData.current.dt * 1000 + localOffset;
         cleanWeatherData.currentTime =
           utc + 1000 * cleanWeatherData.timezone_offset;
 
         cleanWeatherData.hourly.forEach((hour) => {
-          const utc = hour.dt * 1000 + localOffset;
+          const utc = hour.dt * 1000 + timezone;
           hour.currentTime = utc + 1000 * cleanWeatherData.timezone_offset;
         });
 
