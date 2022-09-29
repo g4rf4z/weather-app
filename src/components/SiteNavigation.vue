@@ -14,7 +14,7 @@
         ></i>
         <i
           class="fa-solid fa-plus text-xl hover:text-weather-secondary duration-150 cursor-pointer"
-          v-if="route.query.preview"
+          v-if="cityIsNotSaved && route.name === 'city'"
           @click="addCity"
         ></i>
       </div>
@@ -51,7 +51,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, reactive, computed, nextTick } from "vue";
 import { RouterLink, useRoute, useRouter } from "vue-router";
 import BaseModal from "./BaseModal.vue";
 import { uid } from "uid";
@@ -63,15 +63,30 @@ const toggleModal = () => {
 
 const route = useRoute();
 const router = useRouter();
+const params = ref(route.params);
+
 const storedCity = ref([]);
-const retrievedCity = localStorage.getItem("storedCity");
+const retrievedCity = computed(() => localStorage.getItem("storedCity"));
+
+const cityIsNotSaved = computed(() => {
+  const savedCities = JSON.parse(retrievedCity.value);
+  if (!savedCities) return true;
+  const foundCities = savedCities.filter(
+    (foundCity) =>
+      foundCity.city === route.params.city &&
+      foundCity.state === route.params.state
+  );
+  if (foundCities.length > 0) return false;
+  return true;
+});
+
+console.log(route);
 
 const addCity = () => {
-  if (retrievedCity) {
-    storedCity.value = JSON.parse(retrievedCity);
+  if (retrievedCity.value) {
+    storedCity.value = JSON.parse(retrievedCity.value);
   }
-
-  const city = {
+  const currentCity = {
     id: uid(),
     city: route.params.city,
     state: route.params.state,
@@ -83,13 +98,15 @@ const addCity = () => {
     },
   };
 
-  storedCity.value.push(city);
+  storedCity.value.push(currentCity);
+
   localStorage.setItem("storedCity", JSON.stringify(storedCity.value));
 
   let query = Object.assign({}, route.query);
 
   delete query.preview;
-  query.id = city.id;
+  query.id = currentCity.id;
+
   router.replace({ query });
 };
 </script>
