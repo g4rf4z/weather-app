@@ -3,7 +3,7 @@
     <div id="container" v-show="modalActive">
       <transition name="modal-inner">
         <div id="content" v-if="modalActive">
-          <slot />
+          <slot></slot>
           <button @click="$emit('close-modal')">Close</button>
         </div>
       </transition>
