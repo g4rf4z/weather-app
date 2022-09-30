@@ -11,37 +11,15 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { computed } from "vue";
 import { useRouter } from "vue-router";
-// import { apiWrapper } from "@/services/api";
 import { useStorageStore } from "@/store/storage";
 import CityCard from "./CityCard.vue";
 
+// retrieveCity() from storage.js in store
 const storageStore = useStorageStore();
 console.log(storageStore);
 const storageData = computed(() => storageStore.storageData);
-
-// const storedCity = ref([]);
-// const retrieveCity = async () => {
-//   if (localStorage.getItem("storedCity")) {
-//     storedCity.value = JSON.parse(localStorage.getItem("storedCity"));
-//     const parsedCity = storedCity.value;
-
-//     const cityArray = [];
-//     parsedCity.forEach((city) => {
-//       const apiKey = import.meta.env.VITE_APP_OPEN_WEATHER_API_KEY;
-//       const apiRoute = `https://api.openweathermap.org/data/2.5/weather?lat=${city.coordinates.lat}&lon=${city.coordinates.lng}&appid=${apiKey}&units=metric`;
-//       cityArray.push(apiWrapper.get(apiRoute));
-//     });
-
-//     const weatherData = await Promise.all(cityArray);
-//     await new Promise((timeout) => setTimeout(timeout, 1000));
-//     weatherData.forEach((value, index) => {
-//       storedCity.value[index].weather = value.data;
-//     });
-//   }
-// };
-// await retrieveCity();
 
 const router = useRouter();
 const goToCityView = (city) => {
