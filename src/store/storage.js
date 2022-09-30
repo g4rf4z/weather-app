@@ -7,6 +7,7 @@ const useStorageStore = defineStore({
     storedCities: [],
     cities: [],
     apiKey: import.meta.env.VITE_APP_OPEN_WEATHER_API_KEY,
+    storageData: {},
   }),
 
   getters: {},
@@ -29,6 +30,12 @@ const useStorageStore = defineStore({
         });
       }
     },
+  },
+  actions: {
+    saveCity() {},
+  },
+  actions: {
+    deleteCity() {},
   },
 });
 
