@@ -29,14 +29,8 @@ const useStorageStore = defineStore({
           this.storedCities.value[index].weather = value.data;
         });
       }
-    },
-  },
-  actions: {
-    saveCity() {},
-  },
-  actions: {
-    deleteCity() {},
-  },
+    }
+  }
 });
 
 export { useStorageStore };
