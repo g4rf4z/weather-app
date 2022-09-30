@@ -12,6 +12,7 @@
 
 <script setup>
 import CityList from "@/components/CityList.vue";
+
 import CityCardSkeleton from "@/components/CityCardSkeleton.vue";
 import Search from "@/components/Search.vue";
 </script>
