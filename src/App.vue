@@ -1,6 +1,6 @@
 <template>
-  <div class="app-container">
-    <site-navigation />
+  <div id="container">
+    <NavigationBar />
     <suspense>
       <RouterView v-slot="{ Component }">
         <Transition name="page" mode="out-in">
@@ -12,11 +12,11 @@
 </template>
 
 <script setup>
-import SiteNavigation from "./components/SiteNavigation.vue";
+import NavigationBar from "@/components/NavigationBar.vue";
 </script>
 
 <style lang="scss" scoped>
-.app-container {
+#container {
   @apply flex flex-col min-h-screen font-Roboto bg-weather-primary;
 }
 

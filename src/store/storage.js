@@ -24,13 +24,13 @@ const useStorageStore = defineStore({
           cities.push(apiWrapper.get(apiRoute));
         });
         weatherData = await Promise.all(this.cities);
-        await new Promise((timeout) => setTimeout(timeout, 1000));
+        // await new Promise((timeout) => setTimeout(timeout, 1000));
         weatherData.forEach((value, index) => {
           this.storedCities.value[index].weather = value.data;
         });
       }
-    }
-  }
+    },
+  },
 });
 
 export { useStorageStore };

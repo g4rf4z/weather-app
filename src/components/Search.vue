@@ -1,5 +1,5 @@
 <template>
-  <div id="input">
+  <div id="container">
     <input
       v-model="searchQuery"
       @input="fetchSearchResults"
@@ -75,7 +75,7 @@ const fetchSearchResults = async () => {
 </script>
 
 <style lang="scss" scoped>
-#input {
+#container {
   @apply mb-8 pt-4 relative;
 }
 

@@ -3,48 +3,43 @@
     <nav>
       <RouterLink :to="{ name: 'home' }">
         <div>
-          <i class="fa-solid fa-sun text-2xl"></i>
-          <p class="text-2xl">WeatherApp</p>
+          <i id="logo" class="fa-solid fa-sun"></i>
+          <h1 id="slogan">WeatherApp</h1>
         </div>
       </RouterLink>
-      <div class="flex gap-3 flex-1 justify-end">
+      <div id="btn-group">
         <i
-          class="fa-solid fa-circle-info text-xl hover:text-weather-secondary duration-150 cursor-pointer"
+          id="open-info-btn"
+          class="fa-solid fa-circle-info"
           @click="toggleModal"
         ></i>
         <i
-          class="fa-solid fa-plus text-xl hover:text-weather-secondary duration-150 cursor-pointer"
+          id="add-city-btn"
+          class="fa-solid fa-plus"
           v-if="cityIsNotSaved && route.name === 'city'"
           @click="addCity"
         ></i>
       </div>
-      <BaseModal :modalActive="modalActive" @close-modal="toggleModal"
-        ><div class="text-black">
-          <h1 class="text-2xl mb-1">About:</h1>
-          <p class="mb-4">
-            WeatherApp lets you track current and future weather cities of your
-            choice.
-          </p>
-          <h2 class="text-2xl">How it works:</h2>
-          <ol class="list-decimal list-inside mb-4">
-            <li>Search for a city by typing its name in the search bar.</li>
-            <li>
-              Select a city from the results, it will take you to the current
-              weather for your selection.
-            </li>
-            <li>
-              Follow the city by clicking on the "+" icon at the top right. This
-              will save the city to display later on the home page.
-            </li>
-          </ol>
-
-          <h2 class="text-2xl">Removing a city</h2>
-          <p>
-            If you no longer want to follow a city, simply select the city in
-            the home page. At the bottom of the page there will be an option to
-            delete the city.
-          </p>
-        </div>
+      <BaseModal :modalActive="modalActive" @close-modal="toggleModal">
+        <h2 class="info-titles">About:</h2>
+        <p class="mb-4">
+          WeatherApp allows you to track the current and future weather cities
+          of your choice.
+        </p>
+        <h2 class="info-titles">How it works:</h2>
+        <ol id="info-list">
+          <li>Use the search bar to find a city.</li>
+          <li>
+            Select a city from the results, you will be redirected to its
+            weather page.
+          </li>
+          <li>Add the city to your favorites by clicking on the "+" icon.</li>
+        </ol>
+        <h2 class="info-titles">Remove a city:</h2>
+        <p>
+          If you no longer want to follow a city, at the bottom of the page
+          there is an option to delete it.
+        </p>
       </BaseModal>
     </nav>
   </header>
@@ -63,7 +58,6 @@ const toggleModal = () => {
 
 const route = useRoute();
 const router = useRouter();
-const params = ref(route.params);
 
 const storedCity = ref([]);
 const retrievedCity = computed(() => localStorage.getItem("storedCity"));
@@ -79,8 +73,6 @@ const cityIsNotSaved = computed(() => {
   if (foundCities.length > 0) return false;
   return true;
 });
-
-console.log(route);
 
 const addCity = () => {
   if (retrievedCity.value) {
@@ -117,10 +109,32 @@ header {
 }
 
 nav {
-  @apply container flex flex-col sm:flex-row items-center gap-4 text-white py-6;
+  @apply py-6 container flex flex-col sm:flex-row items-center gap-4 text-white;
 
   a div {
     @apply flex items-center gap-3;
   }
+}
+
+#logo,
+#slogan {
+  @apply text-2xl;
+}
+
+#btn-group {
+  @apply flex flex-1 justify-end gap-3;
+}
+
+#open-info-btn,
+#add-city-btn {
+  @apply text-xl cursor-pointer hover:text-weather-secondary duration-150;
+}
+
+.info-titles {
+  @apply text-2xl mb-1;
+}
+
+#info-list {
+  @apply mb-4 list-decimal list-inside;
 }
 </style>

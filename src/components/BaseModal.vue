@@ -24,7 +24,7 @@ defineEmits(["close-modal"]);
 
 <style lang="scss" scoped>
 #container {
-  @apply h-screen w-full px-8 flex justify-center absolute top-0 right-0 bottom-0 left-0 bg-black bg-opacity-30;
+  @apply h-screen w-full px-8 flex justify-center absolute top-0 right-0 bottom-0 left-0 text-black bg-black bg-opacity-30;
 }
 
 #content {
