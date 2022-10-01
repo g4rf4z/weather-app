@@ -6,7 +6,6 @@ const useStorageStore = defineStore({
   state: () => ({
     storedCities: [],
     cities: [],
-    apiKey: import.meta.env.VITE_APP_OPEN_WEATHER_API_KEY,
     storageData: {},
   }),
 
@@ -20,7 +19,8 @@ const useStorageStore = defineStore({
         );
         parsedCities = this.storedCities.value;
         parsedCities.forEach((city) => {
-          apiRoute = `https://api.openweathermap.org/data/2.5/weather?lat=${city.coordinates.lat}&lon=${city.coordinates.lng}&appid=${this.apiKey}&units=metric`;
+          const apiKey = import.meta.env.VITE_APP_OPEN_WEATHER_API_KEY;
+          const apiRoute = `https://api.openweathermap.org/data/2.5/weather?lat=${city.coordinates.lat}&lon=${city.coordinates.lng}&appid=${apiKey}&units=metric`;
           cities.push(apiWrapper.get(apiRoute));
         });
         weatherData = await Promise.all(this.cities);

@@ -16,9 +16,7 @@ import { useRouter } from "vue-router";
 import { useStorageStore } from "@/store/storage";
 import CityCard from "./CityCard.vue";
 
-// retrieveCity() from storage.js in store
 const storageStore = useStorageStore();
-console.log(storageStore);
 const storageData = computed(() => storageStore.storageData);
 
 const router = useRouter();
