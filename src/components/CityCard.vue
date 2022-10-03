@@ -1,5 +1,5 @@
 <template>
-  <div id="container">
+  <div id="city-card-container">
     <div id="city-overview">
       <h2 id="city-name">{{ city.city }}</h2>
       <h3 id="state-country-name">{{ city.state }}, {{ city.country }}</h3>
@@ -32,7 +32,7 @@ defineProps({
 </script>
 
 <style lang="scss" scoped>
-#container {
+#city-card-container {
   @apply py-6 px-3 flex rounded-md shadow-md bg-weather-secondary cursor-pointer;
 }
 

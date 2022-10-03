@@ -16,8 +16,8 @@
         <i
           id="add-city-btn"
           class="fa-solid fa-plus"
-          v-if="cityIsNotSaved && route.name === 'city'"
-          @click="addCity"
+          v-if="storedCities && route.name === 'city'"
+          @click="storeCity"
         ></i>
       </div>
       <BaseModal :modalActive="modalActive" @close-modal="toggleModal">
@@ -47,59 +47,50 @@
 
 <script setup>
 import { ref, computed } from "vue";
-import { RouterLink, useRoute, useRouter } from "vue-router";
-import BaseModal from "./BaseModal.vue";
+import { RouterLink, useRoute } from "vue-router";
 import { uid } from "uid";
+import BaseModal from "./BaseModal.vue";
 
 const modalActive = ref(null);
+
 const toggleModal = () => {
   modalActive.value = !modalActive.value;
 };
 
 const route = useRoute();
-const router = useRouter();
 
-const storedCity = ref([]);
-const retrievedCity = computed(() => localStorage.getItem("storedCity"));
+const storedCities = ref([]);
+const getCities = localStorage.getItem("storedCities");
 
-const cityIsNotSaved = computed(() => {
-  const savedCities = JSON.parse(retrievedCity.value);
-  if (!savedCities) return true;
-  const foundCities = savedCities.filter(
-    (foundCity) =>
-      foundCity.city === route.params.city &&
-      foundCity.state === route.params.state
-  );
-  if (foundCities.length > 0) return false;
-  return true;
-});
+// const cityIsNotSaved = computed(() => {
+//   const savedCities = JSON.parse(retrievedCity.value);
+//   if (!savedCities) return true;
+//   const foundCities = savedCities.filter(
+//     (foundCity) =>
+//       foundCity.city === route.params.city &&
+//       foundCity.state === route.params.state
+//   );
+//   if (foundCities.length > 0) return false;
+//   return true;
+// });
 
-const addCity = () => {
-  if (retrievedCity.value) {
-    storedCity.value = JSON.parse(retrievedCity.value);
+// Stocke une ville dans le local storage.
+const storeCity = () => {
+  if (getCities) {
+    storedCities.value = JSON.parse(getCities);
   }
-  const currentCity = {
-    id: uid(),
+  const cityLocation = {
+    id: route.params.city,
     city: route.params.city,
     state: route.params.state,
     country: route.params.country,
-
     coordinates: {
       lat: route.query.lat,
       lng: route.query.lng,
     },
   };
-
-  storedCity.value.push(currentCity);
-
-  localStorage.setItem("storedCity", JSON.stringify(storedCity.value));
-
-  let query = Object.assign({}, route.query);
-
-  delete query.preview;
-  query.id = currentCity.id;
-
-  router.replace({ query });
+  storedCities.value.push(cityLocation);
+  localStorage.setItem("storedCities", JSON.stringify(storedCities.value));
 };
 </script>
 

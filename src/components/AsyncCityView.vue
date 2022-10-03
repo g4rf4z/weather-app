@@ -108,7 +108,7 @@
         </div>
       </div>
       <div class="delete-btn-group">
-        <DeleteButton @click="deleteCity">
+        <DeleteButton @click="unstoreCity">
           <i class="fa-solid fa-trash"></i>
           <p>Delete {{ route.params.city }} from my favorites</p>
         </DeleteButton>
@@ -118,21 +118,23 @@
 </template>
 
 <script setup>
-import { computed } from "vue";
-import { useRouter, useRoute } from "vue-router";
-import { useWeatherStore } from "@/store/weather";
+import router from "@/router";
 import DeleteButton from "./DeleteButton.vue";
+import { computed } from "vue";
+import { useRoute } from "vue-router";
+import { useWeatherStore } from "@/store/weather";
 
 const route = useRoute();
 const weatherStore = useWeatherStore();
 const weatherData = computed(() => weatherStore.weatherData);
 await weatherStore.fetchWeatherData(route.query.lat, route.query.lng);
 
-const router = useRouter();
-const deleteCity = () => {
-  const storedCity = JSON.parse(localStorage.getItem("storedCity"));
-  const updatedCity = storedCity.filter((city) => city.id !== route.query.id);
-  localStorage.setItem("storedCity", JSON.stringify(updatedCity));
+const unstoreCity = () => {
+  const storedCities = JSON.parse(localStorage.getItem("storedCities"));
+  const updatedCities = storedCities.filter(
+    (city) => city.id !== route.query.id
+  );
+  localStorage.setItem("storedCities", JSON.stringify(updatedCities));
   router.push({
     name: "home",
   });
