@@ -3,10 +3,7 @@ import { apiWrapper } from "@/services/api";
 
 const useMainStore = defineStore({
   id: "mainStore",
-  state: () => ({
-    // cityData: {},
-    // storedCitiesData: [],
-  }),
+  state: () => ({}),
 
   getters: {},
 

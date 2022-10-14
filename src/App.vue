@@ -1,5 +1,5 @@
 <template>
-  <div id="container">
+  <div id="app">
     <NavigationBar />
     <suspense>
       <RouterView v-slot="{ Component }">
@@ -16,7 +16,7 @@ import NavigationBar from "@/components/NavigationBar.vue";
 </script>
 
 <style lang="scss" scoped>
-#container {
+#app {
   @apply flex flex-col min-h-screen font-Roboto bg-weather-primary;
 }
 
