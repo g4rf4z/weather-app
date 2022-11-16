@@ -13,10 +13,7 @@
 
 <script setup>
 defineProps({
-  modalActive: {
-    type: Boolean,
-    default: false,
-  },
+  modalActive: { type: Boolean, default: false },
 });
 
 defineEmits(["close-modal"]);

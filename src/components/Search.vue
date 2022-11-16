@@ -1,32 +1,12 @@
 <template>
   <div id="search-container">
-    <input
-      v-model="searchQuery"
-      @input="fetchSearchResults"
-      type="text"
-      placeholder="Search for a city"
-    />
-    <ul
-      v-if="
-        searchResults.length > 0 ||
-        searchError ||
-        (searchQuery.length > 0 && !searchError)
-      "
-    >
+    <input v-model="searchQuery" @input="fetchSearchResults" type="text" placeholder="Search for a city" />
+    <ul v-if="searchResults.length > 0 || searchError || (searchQuery.length > 0 && !searchError)">
       <li v-if="searchError">Something went wrong, please try again.</li>
-      <li
-        v-for="(searchResult, index) in searchResults"
-        @click="goToCity(searchResult)"
-        :key="index"
-        class="cursor-pointer"
-      >
+      <li v-for="(searchResult, index) in searchResults" @click="goToCity(searchResult)" :key="index" class="cursor-pointer">
         <button>{{ searchResult.place_name }}</button>
       </li>
-      <li
-        v-if="
-          searchQuery.length > 0 && searchResults.length < 1 && !searchError
-        "
-      >
+      <li v-if="searchQuery.length > 0 && searchResults.length < 1 && !searchError">
         No result match with your query, try a different term.
       </li>
     </ul>
@@ -46,9 +26,9 @@ const getResultsTimeout = ref(null);
 const searchResults = ref([]);
 const searchError = ref(false);
 
-const goToCity = (resultData) => {
-  const [city, state, country] = resultData.place_name.split(",");
-  const [lng, lat] = resultData.geometry.coordinates;
+const goToCity = (result) => {
+  const [city, state, country] = result.place_name.split(",");
+  const [lng, lat] = result.geometry.coordinates;
   mainStore.citySearchResults = [];
   mainStore.city;
   router.push({

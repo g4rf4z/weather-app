@@ -1,12 +1,12 @@
 <template>
   <div id="app">
-    <NavigationBar />
+    <navigation-bar></navigation-bar>
     <suspense>
-      <RouterView v-slot="{ Component }">
-        <Transition name="page" mode="out-in">
+      <router-view v-slot="{ Component }">
+        <transition name="page" mode="out-in">
           <component :is="Component" />
-        </Transition>
-      </RouterView>
+        </transition>
+      </router-view>
     </suspense>
   </div>
 </template>
@@ -17,7 +17,7 @@ import NavigationBar from "@/components/NavigationBar.vue";
 
 <style lang="scss" scoped>
 #app {
-  @apply flex flex-col min-h-screen font-Roboto bg-weather-primary;
+  @apply min-h-screen flex flex-col font-Roboto bg-weather-primary;
 }
 
 .page-enter-active,

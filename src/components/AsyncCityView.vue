@@ -120,6 +120,7 @@
 <script setup>
 import router from "@/router";
 import DeleteButton from "./DeleteButton.vue";
+
 import { computed } from "vue";
 import { useRoute } from "vue-router";
 import { useWeatherStore } from "@/store/weather";
