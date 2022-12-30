@@ -1,9 +1,9 @@
 <template>
   <div>
     <suspense>
-      <AsyncCityView />
+      <async-city-view></async-city-view>
       <template #fallback>
-        <CityViewSkeleton />
+        <city-view-skeleton></city-view-skeleton>
       </template>
     </suspense>
   </div>

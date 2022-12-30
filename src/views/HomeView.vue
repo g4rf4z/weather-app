@@ -1,12 +1,12 @@
 <template>
   <main>
-    <Search />
-    <Suspense>
-      <CityList />
+    <search></search>
+    <suspense>
+      <city-list></city-list>
       <template #fallback>
-        <CityCardSkeleton />
+        <city-card-skeleton></city-card-skeleton>
       </template>
-    </Suspense>
+    </suspense>
   </main>
 </template>
 

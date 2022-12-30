@@ -24,10 +24,7 @@
 
 <script setup>
 defineProps({
-  city: {
-    type: Object,
-    default: () => {},
-  },
+  city: { type: Object, default: () => {} },
 });
 </script>
 
