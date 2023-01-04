@@ -1,23 +1,24 @@
 <template>
   <main>
-    <search></search>
-    <suspense>
-      <city-list></city-list>
-      <template #fallback>
-        <city-card-skeleton></city-card-skeleton>
+    <Search />
+    <Suspense>
+      <template #default>
+        <CityList />
       </template>
-    </suspense>
+      <template #fallback>
+        <CityCardSkeleton />
+      </template>
+    </Suspense>
   </main>
 </template>
 
 <script setup>
-import Search from "@/components/Search.vue";
-import CityList from "@/components/CityList.vue";
-
-import CityCardSkeleton from "@/components/CityCardSkeleton.vue";
+import Search from '@/components/Search.vue';
+import CityList from '@/components/CityList.vue';
+import CityCardSkeleton from '@/components/CityCardSkeleton.vue';
 </script>
 
-<style lang="scss" scoped>
+<style scoped lang="scss">
 main {
   @apply container text-white;
 }

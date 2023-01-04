@@ -10,40 +10,29 @@ const apiClient = axios.create({
   },
 });
 
-const apiWrapper = {
+export const apiWrapper = {
   instance: apiClient,
+  responseBody: (response) => response.data,
 
-  get: async function (...args) {
-    try {
-      return await this.instance.get(...args);
-    } catch (error) {
-      console.error({ ...error });
-    }
+  get: async function (url, params = {}) {
+    const response = await this.instance.get(url, { params });
+    return this.responseBody(response);
   },
 
-  post: async function (...args) {
-    try {
-      return await this.instance.get(...args);
-    } catch (error) {
-      console.error({ ...error });
-    }
+  post: async function (url, data = {}, config) {
+    const response = await this.instance.post(url, data, config);
+    return this.responseBody(response);
   },
 
-  put: async function (...args) {
-    try {
-      return await this.instance.get(...args);
-    } catch (error) {
-      console.error({ ...error });
-    }
+  patch: async function (url, data = {}, config) {
+    const response = await this.instance.patch(url, data, config);
+    return this.responseBody(response);
   },
 
-  delete: async function (...args) {
-    try {
-      return await this.instance.get(...args);
-    } catch (error) {
-      console.error({ ...error });
-    }
+  delete: async function (url, params = {}) {
+    const response = await this.instance.delete(url, {
+      params,
+    });
+    return this.responseBody(response);
   },
 };
-
-export { apiWrapper };
