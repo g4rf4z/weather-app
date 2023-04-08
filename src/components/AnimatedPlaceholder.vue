@@ -4,6 +4,6 @@
 
 <style lang="scss" scoped>
 .animated-placeholder {
-  @apply animate-pulse bg-gradient-to-r from-neutral-50;
+  @apply rounded animate-pulse bg-gradient-to-r from-neutral-50;
 }
 </style>

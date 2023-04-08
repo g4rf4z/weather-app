@@ -2,7 +2,7 @@
   <main>
     <search></search>
     <suspense>
-      <city-list></city-list>
+      <list-of-cities></list-of-cities>
       <template #fallback>
         <city-card-skeleton></city-card-skeleton>
       </template>
@@ -12,7 +12,7 @@
 
 <script setup>
 import Search from "@/components/Search.vue";
-import CityList from "@/components/CityList.vue";
+import ListOfCities from "@/components/ListOfCities.vue";
 import CityCardSkeleton from "@/components/CityCardSkeleton.vue";
 </script>
 

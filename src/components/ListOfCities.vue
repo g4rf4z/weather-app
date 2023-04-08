@@ -1,7 +1,7 @@
 <template>
-  <div id="city-list">
-    <div v-for="city in storedCities" :key="city.id">
-      <CityCard :city="city" @click="goToCityView(city)" />
+  <div class="list-of-cities">
+    <div v-for="(storedCity, index) in storedCities" :key="index">
+      <CityCard :city="storedCity" @click="goToCityView(storedCity)"></CityCard>
     </div>
     <p v-if="storedCities.length === 0">
       No location added. To start tracking a location, please search in the
@@ -12,33 +12,34 @@
 
 <script setup>
 import router from "@/router";
-import CityCard from "./CityCard.vue";
+import CityCard from "#/CityCard.vue";
+
 import { ref } from "vue";
 import { apiWrapper } from "@/services/api";
 
 // Récupère une ville dans le local storage et la météo associée à celle-ci sur Open Weather.
 const storedCities = ref([]);
 const retrievedCities = localStorage.getItem("storedCities");
+
 const retrieveCity = async () => {
   if (retrievedCities) {
     storedCities.value = JSON.parse(retrievedCities);
-    const weatherData = [];
-    storedCities.value.forEach((city) => {
-      const apiKey = import.meta.env.VITE_APP_OPEN_WEATHER_API_KEY;
+
+    const fetchWeatherData = async (city) => {
+      const apiKey = import.meta.env.VITE_OPEN_WEATHER_API_KEY;
       const apiRoute = `https://api.openweathermap.org/data/2.5/weather?lat=${city.coordinates.lat}&lon=${city.coordinates.lng}&appid=${apiKey}&units=metric`;
-      const weatherDataFound = apiWrapper.get(apiRoute);
-      weatherData.push(weatherDataFound);
-    });
-    const citiesWeatherData = await Promise.all(weatherData);
-    citiesWeatherData.forEach((value, index) => {
-      storedCities.value[index].weather = value.data;
-      console.log(citiesWeatherData);
-    });
+      const weatherData = await apiWrapper.get(apiRoute);
+      return { ...city, weather: weatherData };
+    };
+
+    storedCities.value = await Promise.all(
+      storedCities.value.map(fetchWeatherData)
+    );
   }
 };
 await retrieveCity();
 
-// Redirige vers CityView.
+// Redirect to a specific "CityView" using the router vue query parameters.
 const goToCityView = (city) => {
   router.push({
     name: "city",
@@ -58,7 +59,7 @@ const goToCityView = (city) => {
 </script>
 
 <style lang="scss" scoped>
-#city-list {
-  @apply space-y-2 flex flex-col;
+.list-of-cities {
+  @apply flex flex-col space-y-2;
 }
 </style>
