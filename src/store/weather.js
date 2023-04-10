@@ -19,10 +19,9 @@ const useWeatherStore = defineStore({
         const weatherData = await apiWrapper.get(apiRoute);
         const processedWeatherData = processWeatherData(weatherData);
         this.weatherData = processedWeatherData;
-        // console.log(this.weatherData);
         return this.weatherData;
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     },
   },

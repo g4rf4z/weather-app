@@ -16,7 +16,6 @@ const useMainStore = defineStore({
         const foundCities = await apiWrapper.get(apiRoute);
         return foundCities.features.map((city) => {
           const { id, place_name, geometry } = city;
-          console.log(city);
           return { id, place_name, geometry };
         });
       } catch (error) {

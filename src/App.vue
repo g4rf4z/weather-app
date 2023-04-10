@@ -13,6 +13,19 @@
 
 <script setup>
 import NavigationBar from "@/components/NavigationBar.vue";
+
+import { useCityStore } from "@/store/cityStore";
+
+const cityStore = useCityStore();
+
+const retrieveStoredCities = async () => {
+  try {
+    await cityStore.retrieveStoredCities();
+  } catch (error) {
+    console.error("An error occurred while retrieving stored cities.", error);
+  }
+};
+retrieveStoredCities();
 </script>
 
 <style lang="scss" scoped>

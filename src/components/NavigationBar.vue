@@ -15,7 +15,7 @@
           class="fa-solid fa-circle-info"
         ></i>
         <i
-          v-if="storedCities && route.name === 'city'"
+          v-if="route.name === 'city'"
           @click="storeCity"
           id="add-city-btn"
           class="fa-solid fa-plus"
@@ -50,16 +50,14 @@
 <script setup>
 import Modal from "#/Modal.vue";
 
-import { computed, ref } from "vue";
+import { ref } from "vue";
 import { RouterLink, useRoute } from "vue-router";
 
-import { useCityStore } from "../store/city";
+import { useCityStore } from "@/store/cityStore";
 
 const route = useRoute();
 
 const cityStore = useCityStore();
-
-const storedCities = computed(() => cityStore.storedCities);
 
 const storeCity = async () => {
   try {

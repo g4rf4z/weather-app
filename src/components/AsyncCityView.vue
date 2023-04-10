@@ -2,7 +2,10 @@
   <div id="container">
     <!------------------------- Banner ------------------------->
     <div id="banner" v-if="route.query.preview">
-      <p>You are currently previewing {{ route.params.city }}. Click the <i class="fa-solid fa-plus"></i> icon to start tracking this city.</p>
+      <p>
+        You are currently previewing {{ route.params.city }}. Click the
+        <i class="fa-solid fa-plus"></i> icon to start tracking this city.
+      </p>
     </div>
 
     <!------------------------- Weather overview ------------------------->
@@ -41,7 +44,11 @@
           Humidity level:
           {{ weather.current?.humidity }}&percnt;
         </p>
-        <img id="weather-icon" :src="`http://openweathermap.org/img/wn/${weather.current?.weather[0].icon}@2x.png`" alt="Icon" />
+        <img
+          id="weather-icon"
+          :src="`http://openweathermap.org/img/wn/${weather.current?.weather[0].icon}@2x.png`"
+          alt="Icon"
+        />
       </div>
     </div>
 
@@ -60,7 +67,11 @@
                 })
               }}
             </p>
-            <img id="hourly-weather-icon" :src="`http://openweathermap.org/img/wn/${hour.weather[0].icon}@2x.png`" alt="Icon" />
+            <img
+              id="hourly-weather-icon"
+              :src="`http://openweathermap.org/img/wn/${hour.weather[0].icon}@2x.png`"
+              alt="Icon"
+            />
             <p class="text-xl">{{ Math.round(hour.temp) }}&deg;C</p>
           </div>
         </div>
@@ -81,7 +92,11 @@
               })
             }}
           </p>
-          <img id="daily-weather-icon" :src="`http://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`" alt="Icon" />
+          <img
+            id="daily-weather-icon"
+            :src="`http://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`"
+            alt="Icon"
+          />
           <div id="daily-temperature">
             <p>Min: {{ Math.round(day.temp.min) }}&deg;C</p>
             <p>Max: {{ Math.round(day.temp.max) }}&deg;C</p>
@@ -104,11 +119,14 @@ import DeleteButton from "#/DeleteButton.vue";
 
 import { computed } from "vue";
 import { useRoute } from "vue-router";
+
 import { useWeatherStore } from "@/store/weather";
+import { useCityStore } from "@/store/cityStore";
 
 const route = useRoute();
 
 const weatherStore = useWeatherStore();
+const cityStore = useCityStore();
 
 const weather = computed(() => weatherStore.weatherData);
 
@@ -121,10 +139,9 @@ const retrieveWeatherData = async () => {
 };
 await retrieveWeatherData();
 
-const unstoreCity = () => {
-  const storedCities = JSON.parse(localStorage.getItem("storedCities"));
-  const updatedCities = storedCities.filter((city) => city.id !== route.query.id);
-  localStorage.setItem("storedCities", JSON.stringify(updatedCities));
+const unstoreCity = async () => {
+  const cityId = route.query.id;
+  await cityStore.unstoreCity(cityId);
   router.push({
     name: "home",
   });
