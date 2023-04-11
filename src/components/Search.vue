@@ -1,10 +1,10 @@
 <template>
-  <div id="search-container">
+  <div class="search-container">
     <input
-      v-model="searchQuery"
-      @input="fetchSearchResults"
       type="text"
+      v-model="searchQuery"
       placeholder="Search for a city"
+      @input="fetchSearchResults"
     />
     <ul
       v-if="
@@ -16,9 +16,9 @@
       <li v-if="searchError">Something went wrong, please try again.</li>
       <li
         v-for="(searchResult, index) in searchResults"
-        @click="goToCity(searchResult)"
         :key="index"
         class="cursor-pointer"
+        @click="goToCityView(searchResult)"
       >
         <button>{{ searchResult.place_name }}</button>
       </li>
@@ -42,11 +42,11 @@ import { useMainStore } from "@/store/main";
 const mainStore = useMainStore();
 
 const searchQuery = ref("");
-const getResultsTimeout = ref(null);
 const searchResults = ref([]);
 const searchError = ref(false);
+const getResultsTimeout = ref(null);
 
-const goToCity = (result) => {
+const goToCityView = (result) => {
   const { id, place_name, geometry } = result;
   const [city, state, country] = place_name
     .split(",")
@@ -79,19 +79,20 @@ const fetchSearchResults = async () => {
 </script>
 
 <style lang="scss" scoped>
-#search-container {
-  @apply mb-8 pt-4;
-}
+.search-container {
+  @apply my-10;
 
-input {
-  @apply w-full py-2 px-1 bg-transparent border-b focus:border-weather-secondary focus:outline-none focus:shadow-[0px_1px_0_0_#004E71];
-}
+  input {
+    @apply w-full px-2 border-b bg-transparent;
+    @apply focus:outline-none focus:border-weather-secondary focus:shadow-[0px_1px#004E71];
+  }
 
-ul {
-  @apply w-full mt-2 text-white bg-weather-secondary shadow-md;
-}
+  ul {
+    @apply w-full mt-2 text-white bg-weather-secondary shadow-xl;
 
-li {
-  @apply py-2 px-1;
+    li {
+      @apply px-2 py-2;
+    }
+  }
 }
 </style>
