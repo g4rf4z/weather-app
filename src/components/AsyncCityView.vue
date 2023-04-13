@@ -1,7 +1,7 @@
 <template>
-  <div id="container">
+  <div class="city-view-container">
     <!------------------------- Banner ------------------------->
-    <div id="banner" v-if="route.query.preview">
+    <div class="banner" v-if="route.query.preview">
       <p>
         You are currently previewing {{ route.params.city }}. Click the
         <i class="fa-solid fa-plus"></i> icon to start tracking this city.
@@ -9,12 +9,12 @@
     </div>
 
     <!------------------------- Weather overview ------------------------->
-    <div id="weather-overview">
+    <div class="weather-overview">
       <h1>
         {{ route.params.city }}, {{ route.params.state }},
         {{ route.params.country }}
       </h1>
-      <p id="date-time">
+      <p class="date-time">
         {{
           new Date(weather.currentTime).toLocaleDateString("en", {
             weekday: "long",
@@ -28,10 +28,10 @@
           })
         }}
       </p>
-      <p id="temperature">{{ Math.round(weather.current?.temp) }}&deg;C</p>
+      <p class="temperature">{{ Math.round(weather.current?.temp) }}&deg;C</p>
 
       <!------------------------- Weather details ------------------------->
-      <div id="weather-details">
+      <div class="weather-details">
         <p>
           Description:
           {{ weather.current?.weather[0].description }}
@@ -45,7 +45,7 @@
           {{ weather.current?.humidity }}&percnt;
         </p>
         <img
-          id="weather-icon"
+          class="weather-icon"
           :src="`http://openweathermap.org/img/wn/${weather.current?.weather[0].icon}@2x.png`"
           alt="Icon"
         />
@@ -55,12 +55,16 @@
     <hr />
 
     <!------------------------- Hourly weather ------------------------->
-    <div id="hourly-weather-overview">
+    <div class="hourly-weather-overview">
       <div class="mx-8 text-white">
         <h2>Hourly weather</h2>
         <div class="flex gap-8 overflow-x-scroll">
-          <div id="hourly-weather" v-for="hour in weather.hourly" :key="hour.dt">
-            <p id="hour">
+          <div
+            class="hourly-weather"
+            v-for="hour in weather.hourly"
+            :key="hour.dt"
+          >
+            <p class="hour">
               {{
                 new Date(hour.currentTime).toLocaleTimeString("fr", {
                   hour: "numeric",
@@ -68,7 +72,7 @@
               }}
             </p>
             <img
-              id="hourly-weather-icon"
+              class="hourly-weather-icon"
               :src="`http://openweathermap.org/img/wn/${hour.weather[0].icon}@2x.png`"
               alt="Icon"
             />
@@ -81,10 +85,10 @@
     <hr />
 
     <!------------------------- Daily weather ------------------------->
-    <div id="daily-weather-overview">
+    <div class="daily-weather-overview">
       <div class="mx-8 text-white">
         <h2>Seven days forecast</h2>
-        <div id="daily-weather" v-for="day in weather.daily" :key="day.dt">
+        <div class="daily-weather" v-for="day in weather.daily" :key="day.dt">
           <p class="flex-1">
             {{
               new Date(day.dt * 1000).toLocaleDateString("en", {
@@ -93,11 +97,11 @@
             }}
           </p>
           <img
-            id="daily-weather-icon"
+            class="daily-weather-icon"
             :src="`http://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`"
             alt="Icon"
           />
-          <div id="daily-temperature">
+          <div class="daily-temperature">
             <p>Min: {{ Math.round(day.temp.min) }}&deg;C</p>
             <p>Max: {{ Math.round(day.temp.max) }}&deg;C</p>
           </div>
@@ -149,15 +153,15 @@ const unstoreCity = async () => {
 </script>
 
 <style lang="scss" scoped>
-#container {
-  @apply flex flex-col flex-1 items-center;
+.city-view-container {
+  @apply flex flex-1 flex-col items-center;
+
+  .banner {
+    @apply w-full text-center text-white p-4 bg-weather-secondary;
+  }
 }
 
-#banner {
-  @apply w-full text-center text-white p-4 bg-weather-secondary;
-}
-
-#weather-overview {
+.weather-overview {
   @apply py-12 flex flex-col items-center text-white;
 }
 
@@ -165,19 +169,19 @@ h1 {
   @apply mb-2 text-4xl;
 }
 
-#date-time {
+.date-time {
   @apply mb-12 text-sm capitalize;
 }
 
-#temperature {
+.temperature {
   @apply mb-8 text-8xl;
 }
 
-#weather-details {
+.weather-details {
   @apply text-center;
 }
 
-#weather-icon {
+.weather-icon {
   @apply h-auto w-[100%];
 }
 
@@ -185,7 +189,7 @@ hr {
   @apply w-full border border-white border-opacity-10;
 }
 
-#hourly-weather-overview {
+.hourly-weather-overview {
   @apply w-full py-12 max-w-screen-md;
 }
 
@@ -193,31 +197,31 @@ h2 {
   @apply mb-4;
 }
 
-#hourly-weather {
+.hourly-weather {
   @apply gap-4 flex flex-col items-center;
 }
 
-#hour {
+.hour {
   @apply whitespace-nowrap;
 }
 
-#hourly-weather-icon {
+.hourly-weather-icon {
   @apply h-auto w-[50px] object-cover;
 }
 
-#daily-weather-overview {
+.daily-weather-overview {
   @apply w-full max-w-screen-md py-12;
 }
 
-#daily-weather {
+.daily-weather {
   @apply flex items-center;
 }
 
-#daily-weather-icon {
+.daily-weather-icon {
   @apply h-auto w-[50px] object-cover;
 }
 
-#daily-temperature {
+.daily-temperature {
   @apply flex flex-1 gap-2 justify-end;
 }
 .delete-btn-group {

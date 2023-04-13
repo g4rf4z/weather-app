@@ -57,11 +57,7 @@ const goToCityView = (result) => {
   router.push({
     name: "city",
     params: { id, city, state, country },
-    query: {
-      lng,
-      lat,
-      preview: true,
-    },
+    query: { lng, lat, preview: true },
   });
 };
 
