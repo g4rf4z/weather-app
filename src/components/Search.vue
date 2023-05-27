@@ -53,7 +53,6 @@ const goToCityView = (result) => {
     .map((item) => item.trim() || "N/A");
   const [lng, lat] = geometry.coordinates;
   mainStore.citySearchResults = [];
-  mainStore.city;
   router.push({
     name: "city",
     params: { id, city, state, country },
