@@ -1,11 +1,18 @@
 {
   "name": "weather-app",
-  "private": true,
+  "description": "Meteorological application designed to forecast the weather in a selected city.",
   "type": "module",
   "version": "1.0.0",
+  "license": "MIT",
+  "private": true,
+  "author": {
+    "name": "Grégoire Pinte",
+    "email": "gregoire.pinte@gmail.com",
+    "url": "https://www.gregoirepinte.com/"
+  },
   "engines": {
-    "node": "~18.7.0",
-    "npm": "~8.15.0"
+    "node": "20.15.0",
+    "npm": "10.7.0"
   },
   "scripts": {
     "dev": "vite",
@@ -13,18 +20,18 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "axios": "~1.3.5",
-    "pinia": "~2.0.17",
+    "axios": "~1.7.2",
+    "pinia": "~2.1.7",
     "uid": "~2.0.0",
-    "vue": "~3.2.37",
-    "vue-router": "~4.1.2"
+    "vue": "~3.4.30",
+    "vue-router": "~4.4.0"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "~4.1.0",
-    "autoprefixer": "~10.4.8",
-    "postcss": "~8.4.16",
-    "sass": "~1.61.0 ",
-    "tailwindcss": "~3.3.1",
-    "vite": "~4.2.1"
+    "@vitejs/plugin-vue": "~5.0.5",
+    "autoprefixer": "~10.4.19",
+    "postcss": "~8.4.38",
+    "sass": "~1.77.6",
+    "tailwindcss": "~3.4.4",
+    "vite": "~5.3.1"
   }
 }
