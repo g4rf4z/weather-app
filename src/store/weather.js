@@ -1,9 +1,8 @@
-import { defineStore } from "pinia";
-import { apiWrapper } from "@/services/api";
-import { processWeatherData } from "@/utils/processWeatherData";
+import { defineStore } from 'pinia';
+import { apiWrapper } from '@/services/api';
 
 const useWeatherStore = defineStore({
-  id: "weatherStore",
+  id: 'weatherStore',
   state: () => ({
     weatherData: {},
   }),
@@ -11,15 +10,14 @@ const useWeatherStore = defineStore({
   getters: {},
 
   actions: {
-    async retrieveWeatherData(lat, lng) {
+    async retrieveWeatherData(lat, lon) {
       const apiKey = import.meta.env.VITE_OPEN_WEATHER_API_KEY;
-      const apiRoute = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lng}&appid=${apiKey}&units=metric`;
+      const apiRoute = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
 
       try {
         const weatherData = await apiWrapper.get(apiRoute);
-        const processedWeatherData = processWeatherData(weatherData);
-        this.weatherData = processedWeatherData;
-        return this.weatherData;
+        this.weatherData = weatherData;
+        return { weatherData };
       } catch (error) {
         console.error(error);
       }
