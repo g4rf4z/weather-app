@@ -21,7 +21,7 @@ const useOpenWeatherStore = defineStore('openWeatherStore', {
       this.loaders['fetchWeatherData'] = true;
       try {
         const response = await apiWrapper.get(apiRoute);
-        this.weatherData = formatWeatherData(response);
+        return (this.weatherData = formatWeatherData(response));
       } finally {
         this.loaders['fetchWeatherData'] = false;
       }
