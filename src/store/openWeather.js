@@ -14,6 +14,7 @@ const useOpenWeatherStore = defineStore('openWeatherStore', {
   getters: {},
 
   actions: {
+    // Fetch weather data from the Open Weather API.
     async fetchWeatherData(lat, lon) {
       const apiKey = import.meta.env.VITE_OPEN_WEATHER_API_KEY;
       const apiRoute = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
@@ -21,7 +22,7 @@ const useOpenWeatherStore = defineStore('openWeatherStore', {
       this.loaders['fetchWeatherData'] = true;
       try {
         const response = await apiWrapper.get(apiRoute);
-        return (this.weatherData = formatWeatherData(response));
+        this.weatherData = formatWeatherData(response);
       } finally {
         this.loaders['fetchWeatherData'] = false;
       }

@@ -4,29 +4,24 @@ import { apiWrapper } from '@/services/api';
 const useMapboxStore = defineStore('mapboxStore', {
   state: () => ({
     loaders: {
-      fetchLocationData: false,
+      fetchGeolocation: false,
     },
   }),
 
   getters: {},
 
   actions: {
-    async fetchLocationData(query) {
+    // Fetch city geolocation data from the Mapbox API.
+    async fetchGeolocation(query) {
       const apiKey = import.meta.env.VITE_MAPBOX_API_KEY;
       const apiRoute = `https://api.mapbox.com/geocoding/v5/mapbox.places/${query}.json?access_token=${apiKey}&types=place`;
 
-      this.loaders['fetchLocationData'] = true;
+      this.loaders['fetchGeolocation'] = true;
       try {
         const { features } = await apiWrapper.get(apiRoute);
-        return features.map(
-          ({ id, place_name, geometry: { coordinates } }) => ({
-            id,
-            place_name,
-            coordinates,
-          })
-        );
+        return features.map(({ geometry: { coordinates }, id, place_name }) => ({ coordinates, id, place_name }));
       } finally {
-        this.loaders['fetchLocationData'] = false;
+        this.loaders['fetchGeolocation'] = false;
       }
     },
   },

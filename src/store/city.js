@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 
 export const useCityStore = defineStore('city', {
   state: () => ({
-    // Fetch the city list from localStorage, convert it into a JavaScript array and initialize it with an empty array if no data is found.
+    // Fetch "cities" from localStorage.
     cities: JSON.parse(localStorage.getItem('cities') || '[]'),
 
     loaders: {
@@ -13,7 +13,7 @@ export const useCityStore = defineStore('city', {
   }),
 
   getters: {
-    // Check whether the city is already stored in localStorage.
+    // Check whether the city is stored in localStorage.
     isCityStored: (state) => (cityId) => state.cities.some((city) => city.id === cityId),
   },
 
