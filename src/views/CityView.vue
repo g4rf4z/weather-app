@@ -1,15 +1,15 @@
 <template>
-  <div>
-    <suspense>
-      <async-city-view></async-city-view>
-      <template #fallback>
-        <city-view-skeleton></city-view-skeleton>
-      </template>
-    </suspense>
-  </div>
+  <Suspense>
+    <template #default>
+      <AsyncCityView />
+    </template>
+    <template #fallback>
+      <CityViewSkeleton />
+    </template>
+  </Suspense>
 </template>
 
 <script setup>
-import AsyncCityView from "@/components/AsyncCityView.vue";
-import CityViewSkeleton from "@/components/CityViewSkeleton.vue";
+import AsyncCityView from '@/components/AsyncCityView.vue';
+import CityViewSkeleton from '@/components/CityViewSkeleton.vue';
 </script>
