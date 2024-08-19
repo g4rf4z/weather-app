@@ -32,67 +32,19 @@
         </p>
         <img
           class="weather-icon"
-          :src="`http://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`"
+          :src="`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`"
           alt="Icon" />
       </div>
     </div>
 
     <hr />
 
-    <!------------------------- Hourly weather ------------------------->
-    <!-- <div class="hourly-weather-overview">
-      <div class="mx-8 text-white">
-        <h2>Hourly weather</h2>
-        <div class="flex gap-8 overflow-x-scroll">
-          <div class="hourly-weather" v-for="hour in weather.hourly" :key="hour.dt">
-            <p class="hour">
-              {{
-                new Date(hour.currentTime).toLocaleTimeString('fr', {
-                  hour: 'numeric',
-                })
-              }}
-            </p>
-            <img
-              class="hourly-weather-icon"
-              :src="`http://openweathermap.org/img/wn/${hour.weather[0].icon}@2x.png`"
-              alt="Icon" />
-            <p class="text-xl">{{ Math.round(hour.temp) }}&deg;C</p>
-          </div>
-        </div>
-      </div>
-    </div> -->
-
-    <hr />
-
-    <!------------------------- Daily weather ------------------------->
-    <!-- <div class="daily-weather-overview">
-      <div class="mx-8 text-white">
-        <h2>Seven days forecast</h2>
-        <div class="daily-weather" v-for="day in weather.daily" :key="day.dt">
-          <p class="flex-1">
-            {{
-              new Date(day.dt * 1000).toLocaleDateString('en', {
-                weekday: 'long',
-              })
-            }}
-          </p>
-          <img
-            class="daily-weather-icon"
-            :src="`http://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`"
-            alt="Icon" />
-          <div class="daily-temperature">
-            <p>Min: {{ Math.round(day.temp.min) }}&deg;C</p>
-            <p>Max: {{ Math.round(day.temp.max) }}&deg;C</p>
-          </div>
-        </div>
-      </div> -->
     <div class="delete-btn-group">
       <DeleteButton @click="unstoreCity">
         <i class="fa-solid fa-trash"></i>
         <p>Delete {{ route.params.city }} from my favorites</p>
       </DeleteButton>
     </div>
-    <!-- </div> -->
   </div>
 </template>
 
