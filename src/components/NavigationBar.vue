@@ -9,38 +9,29 @@
       </router-link>
 
       <div id="btn-group">
-        <i
-          @click="toggleModal"
-          id="open-info-btn"
-          class="fa-solid fa-circle-info"
-        ></i>
+        <i @click="toggleModal" id="open-info-btn" class="fa-solid fa-circle-info"></i>
         <i
           v-if="route.name === 'city'"
           @click="storeCity"
           id="add-city-btn"
-          class="fa-solid fa-plus"
-        ></i>
+          class="fa-solid fa-plus"></i>
       </div>
 
       <modal :modalActive="modalActive" @close-modal="toggleModal">
         <h2 class="info-titles">About:</h2>
         <p class="mb-4">
-          WeatherApp allows you to track the current and future weather cities
-          of your choice.
+          WeatherApp allows you to track the current and future weather cities of your choice.
         </p>
         <h2 class="info-titles">How it works:</h2>
         <ol id="info-list">
           <li>Use the search bar to find a city.</li>
-          <li>
-            Select a city from the results, you will be redirected to its
-            weather page.
-          </li>
+          <li>Select a city from the results, you will be redirected to its weather page.</li>
           <li>Add the city to your favorites by clicking on the "+" icon.</li>
         </ol>
         <h2 class="info-titles">Remove a city:</h2>
         <p>
-          If you no longer want to follow a city, at the bottom of the page
-          there is an option to delete it.
+          If you no longer want to follow a city, at the bottom of the page there is an option to
+          delete it.
         </p>
       </modal>
     </nav>
@@ -48,12 +39,12 @@
 </template>
 
 <script setup>
-import Modal from "#/Modal.vue";
+import Modal from '#/Modal.vue';
 
-import { ref } from "vue";
-import { RouterLink, useRoute } from "vue-router";
+import { ref } from 'vue';
+import { RouterLink, useRoute } from 'vue-router';
 
-import { useCityStore } from "@/store/cityStore";
+import { useCityStore } from '@/store/city';
 
 const route = useRoute();
 
@@ -61,7 +52,7 @@ const cityStore = useCityStore();
 
 const storeCity = async () => {
   try {
-    const cityLocation = {
+    const cityFeatures = {
       id: route.params.id,
       city: route.params.city,
       state: route.params.state,
@@ -71,7 +62,10 @@ const storeCity = async () => {
         lng: route.query.lng,
       },
     };
-    await cityStore.storeCity(cityLocation);
+
+    if (!cityStore.isCityStored(cityFeatures.id)) {
+      cityStore.storeCity(cityFeatures);
+    }
   } catch (error) {
     console.error(error);
   }

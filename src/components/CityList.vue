@@ -1,29 +1,28 @@
 <template>
   <div class="list-of-cities">
-    <div v-for="(storedCity, index) in storedCities" :key="index">
-      <CityCard :city="storedCity" @click="goToCityView(storedCity)"></CityCard>
+    <div v-for="(city, index) in cities" :key="index">
+      <CityCard :city="city" @click="goToCityView(city)"></CityCard>
     </div>
-    <p v-if="storedCities.length === 0">
-      No location added. To start tracking a location, please search in the
-      field above.
+    <p v-if="cities.length === 0">
+      No location added. To start tracking a location, please search in the field above.
     </p>
   </div>
 </template>
 
 <script setup>
-import router from "@/router";
-import CityCard from "#/CityCard.vue";
+import router from '@/router';
+import CityCard from '#/CityCard.vue';
 
-import { ref } from "vue";
-import { apiWrapper } from "@/services/api";
+import { ref } from 'vue';
+import { apiWrapper } from '@/services/api';
 
 // Récupère une ville dans le local storage et la météo associée à celle-ci sur Open Weather.
-const storedCities = ref([]);
-const retrievedCities = localStorage.getItem("storedCities");
+const cities = ref([]);
+const retrievedCities = localStorage.getItem('cities');
 
 const retrieveCity = async () => {
   if (retrievedCities) {
-    storedCities.value = JSON.parse(retrievedCities);
+    cities.value = JSON.parse(retrievedCities);
 
     const fetchWeatherData = async (city) => {
       const apiKey = import.meta.env.VITE_OPEN_WEATHER_API_KEY;
@@ -32,9 +31,7 @@ const retrieveCity = async () => {
       return { ...city, weather: weatherData };
     };
 
-    storedCities.value = await Promise.all(
-      storedCities.value.map(fetchWeatherData)
-    );
+    cities.value = await Promise.all(cities.value.map(fetchWeatherData));
   }
 };
 await retrieveCity();
@@ -42,7 +39,7 @@ await retrieveCity();
 // Redirect to a specific "CityView" using the router vue query parameters.
 const goToCityView = (city) => {
   router.push({
-    name: "city",
+    name: 'city',
     params: {
       id: city.id,
       city: city.city,

@@ -4,29 +4,17 @@
       type="text"
       v-model="searchQuery"
       placeholder="Search for a city"
-      @input="fetchSearchResults"
-    />
-    <ul
-      v-if="
-        searchResults.length > 0 ||
-        searchError ||
-        (searchQuery.length > 0 && !searchError)
-      "
-    >
+      @input="fetchSearchResults" />
+    <ul v-if="searchResults.length > 0 || searchError || (searchQuery.length > 0 && !searchError)">
       <li v-if="searchError">Something went wrong, please try again.</li>
       <li
         v-for="(searchResult, index) in searchResults"
         :key="index"
         class="cursor-pointer"
-        @click="goToCityView(searchResult)"
-      >
+        @click="goToCityView(searchResult)">
         <button>{{ searchResult.place_name }}</button>
       </li>
-      <li
-        v-if="
-          searchQuery.length > 0 && searchResults.length < 1 && !searchError
-        "
-      >
+      <li v-if="searchQuery.length > 0 && searchResults.length < 1 && !searchError">
         No result match with your query, try a different term.
       </li>
     </ul>
@@ -34,29 +22,42 @@
 </template>
 
 <script setup>
-import router from "@/router";
+import router from '@/router';
 
-import { ref } from "vue";
-import { useMainStore } from "@/store/main";
+import { ref } from 'vue';
+import { useMapboxStore } from '@/store/mapbox';
 
-const mainStore = useMainStore();
+const mapboxStore = useMapboxStore();
 
-const searchQuery = ref("");
+const searchQuery = ref('');
 const searchResults = ref([]);
 const searchError = ref(false);
 const getResultsTimeout = ref(null);
 
 const goToCityView = (result) => {
-  const { id, place_name, geometry } = result;
-  const [city, state, country] = place_name
-    .split(",")
-    .map((item) => item.trim() || "N/A");
-  const [lng, lat] = geometry.coordinates;
-  mainStore.citySearchResults = [];
+  const { id, place_name, coordinates } = result;
+  const [city, state, country] = place_name.split(',').map((item) => item.trim() || 'N/A');
+  const [lng, lat] = coordinates;
+
+  mapboxStore.citySearchResults = [];
+
+  const params = { id, city };
+  if (state) params.state = state;
+  if (country) params.country = country;
+
   router.push({
-    name: "city",
-    params: { id, city, state, country },
-    query: { lng, lat, preview: true },
+    name: 'city',
+    params: {
+      id,
+      city,
+      state,
+      country,
+    },
+    query: {
+      lng,
+      lat,
+      preview: true,
+    },
   });
 };
 
@@ -64,7 +65,7 @@ const fetchSearchResults = async () => {
   clearTimeout(getResultsTimeout.value);
   getResultsTimeout.value = setTimeout(async () => {
     try {
-      searchResults.value = await mainStore.searchCity(searchQuery.value);
+      searchResults.value = await mapboxStore.fetchGeolocation(searchQuery.value);
       searchError.value = false;
     } catch (error) {
       searchError.value = true;

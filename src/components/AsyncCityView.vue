@@ -10,145 +10,122 @@
 
     <!------------------------- Weather overview ------------------------->
     <div class="weather-overview">
-      <h1>
-        {{ route.params.city }}, {{ route.params.state }},
-        {{ route.params.country }}
-      </h1>
+      <h1>{{ route.params.city }}, {{ route.params.state }}, {{ route.params.country }}</h1>
       <p class="date-time">
-        {{
-          new Date(weather.currentTime).toLocaleDateString("en", {
-            weekday: "long",
-            day: "2-digit",
-            month: "long",
-          })
-        }}
-        {{
-          new Date(weather.currentTime).toLocaleTimeString("fr", {
-            timeStyle: "short",
-          })
-        }}
+        {{ weather.localDateTime }}
       </p>
-      <p class="temperature">{{ Math.round(weather.current?.temp) }}&deg;C</p>
+      <p class="temperature">{{ Math.round(weather.main.temp) }}&deg;C</p>
 
       <!------------------------- Weather details ------------------------->
       <div class="weather-details">
         <p>
           Description:
-          {{ weather.current?.weather[0].description }}
+          {{ weather.weather[0].description }}
         </p>
         <p>
           Felt temperature:
-          {{ Math.round(weather.current?.feels_like) }}&deg;C
+          {{ Math.round(weather.main.feels_like) }}&deg;C
         </p>
         <p>
           Humidity level:
-          {{ weather.current?.humidity }}&percnt;
+          {{ weather.main.humidity }}&percnt;
         </p>
         <img
           class="weather-icon"
-          :src="`http://openweathermap.org/img/wn/${weather.current?.weather[0].icon}@2x.png`"
-          alt="Icon"
-        />
+          :src="`http://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`"
+          alt="Icon" />
       </div>
     </div>
 
     <hr />
 
     <!------------------------- Hourly weather ------------------------->
-    <div class="hourly-weather-overview">
+    <!-- <div class="hourly-weather-overview">
       <div class="mx-8 text-white">
         <h2>Hourly weather</h2>
         <div class="flex gap-8 overflow-x-scroll">
-          <div
-            class="hourly-weather"
-            v-for="hour in weather.hourly"
-            :key="hour.dt"
-          >
+          <div class="hourly-weather" v-for="hour in weather.hourly" :key="hour.dt">
             <p class="hour">
               {{
-                new Date(hour.currentTime).toLocaleTimeString("fr", {
-                  hour: "numeric",
+                new Date(hour.currentTime).toLocaleTimeString('fr', {
+                  hour: 'numeric',
                 })
               }}
             </p>
             <img
               class="hourly-weather-icon"
               :src="`http://openweathermap.org/img/wn/${hour.weather[0].icon}@2x.png`"
-              alt="Icon"
-            />
+              alt="Icon" />
             <p class="text-xl">{{ Math.round(hour.temp) }}&deg;C</p>
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <hr />
 
     <!------------------------- Daily weather ------------------------->
-    <div class="daily-weather-overview">
+    <!-- <div class="daily-weather-overview">
       <div class="mx-8 text-white">
         <h2>Seven days forecast</h2>
         <div class="daily-weather" v-for="day in weather.daily" :key="day.dt">
           <p class="flex-1">
             {{
-              new Date(day.dt * 1000).toLocaleDateString("en", {
-                weekday: "long",
+              new Date(day.dt * 1000).toLocaleDateString('en', {
+                weekday: 'long',
               })
             }}
           </p>
           <img
             class="daily-weather-icon"
             :src="`http://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`"
-            alt="Icon"
-          />
+            alt="Icon" />
           <div class="daily-temperature">
             <p>Min: {{ Math.round(day.temp.min) }}&deg;C</p>
             <p>Max: {{ Math.round(day.temp.max) }}&deg;C</p>
           </div>
         </div>
-      </div>
-      <div class="delete-btn-group">
-        <DeleteButton @click="unstoreCity">
-          <i class="fa-solid fa-trash"></i>
-          <p>Delete {{ route.params.city }} from my favorites</p>
-        </DeleteButton>
-      </div>
+      </div> -->
+    <div class="delete-btn-group">
+      <DeleteButton @click="unstoreCity">
+        <i class="fa-solid fa-trash"></i>
+        <p>Delete {{ route.params.city }} from my favorites</p>
+      </DeleteButton>
     </div>
+    <!-- </div> -->
   </div>
 </template>
 
 <script setup>
-import router from "@/router";
-import DeleteButton from "#/DeleteButton.vue";
+import router from '@/router';
+import DeleteButton from '#/DeleteButton.vue';
 
-import { computed } from "vue";
-import { useRoute } from "vue-router";
+import { computed } from 'vue';
+import { useRoute } from 'vue-router';
 
-import { useWeatherStore } from "@/store/weather";
-import { useCityStore } from "@/store/cityStore";
+import { useOpenWeatherStore } from '@/store/openWeather';
+import { useCityStore } from '@/store/city';
 
 const route = useRoute();
 
-const weatherStore = useWeatherStore();
+const openWeatherStore = useOpenWeatherStore();
 const cityStore = useCityStore();
 
-const weather = computed(() => weatherStore.weatherData);
+const weather = computed(() => openWeatherStore.weatherData);
 
-const retrieveWeatherData = async () => {
+const fetchWeatherData = async () => {
   try {
-    await weatherStore.retrieveWeatherData(route.query.lat, route.query.lng);
+    await openWeatherStore.fetchWeatherData(route.query.lat, route.query.lng);
   } catch (error) {
     console.error(error);
   }
 };
-await retrieveWeatherData();
+await fetchWeatherData();
 
 const unstoreCity = async () => {
   const cityId = route.query.id;
-  await cityStore.unstoreCity(cityId);
-  router.push({
-    name: "home",
-  });
+  cityStore.unstoreCity(cityId);
+  router.push({ name: 'home' });
 };
 </script>
 
