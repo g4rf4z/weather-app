@@ -1,34 +1,29 @@
 <template>
   <div id="app">
-    <navigation-bar></navigation-bar>
-    <suspense>
-      <router-view v-slot="{ Component }">
-        <transition name="page" mode="out-in">
-          <component :is="Component" />
-        </transition>
-      </router-view>
-    </suspense>
+    <NavigationBar />
+    <Suspense>
+      <RouterView v-slot="{ Component }">
+        <Transition name="page" mode="out-in">
+          <Component :is="Component" />
+        </Transition>
+      </RouterView>
+    </Suspense>
   </div>
 </template>
 
 <script setup>
-import NavigationBar from "@/components/NavigationBar.vue";
-
-import { useCityStore } from "@/store/cityStore";
+import NavigationBar from '@/components/NavigationBar.vue';
+import { onMounted } from 'vue';
+import { useCityStore } from '@/store/city';
 
 const cityStore = useCityStore();
 
-const retrieveStoredCities = async () => {
-  try {
-    await cityStore.retrieveStoredCities();
-  } catch (error) {
-    console.error("An error occurred while retrieving stored cities.", error);
-  }
-};
-retrieveStoredCities();
+onMounted(() => {
+  cityStore.saveCities();
+});
 </script>
 
-<style lang="scss" scoped>
+<style scoped lang="scss">
 #app {
   @apply min-h-screen flex flex-col font-Roboto bg-weather-primary;
 }
