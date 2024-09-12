@@ -4,14 +4,14 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: () => import('@/views/HomeView.vue'),
+    component: () => import('@/pages/Home.vue'),
     meta: { title: 'Home' },
   },
   {
     path: '/weather/:id/:city/:state?/:country?',
     name: 'city',
-    component: () => import('@/views/CityView.vue'),
-    meta: { title: 'City View' },
+    component: () => import('@/pages/City.vue'),
+    meta: { title: 'City' },
   },
 ];
 
