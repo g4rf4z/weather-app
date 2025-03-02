@@ -39,7 +39,7 @@
 </template>
 
 <script setup>
-import Modal from '#/Modal.vue';
+import Modal from '@/components/Modal.vue';
 
 import { ref } from 'vue';
 import { RouterLink, useRoute } from 'vue-router';

@@ -50,7 +50,7 @@
 
 <script setup>
 import router from '@/router';
-import DeleteButton from '#/DeleteButton.vue';
+import DeleteButton from '@/components/DeleteButton.vue';
 
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';

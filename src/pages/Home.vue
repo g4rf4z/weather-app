@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <div class="container text-white">
     <Search />
     <Suspense>
       <template #default>
@@ -9,7 +9,7 @@
         <CityCardSkeleton />
       </template>
     </Suspense>
-  </main>
+  </div>
 </template>
 
 <script setup>
@@ -17,9 +17,3 @@ import Search from '@/components/Search.vue';
 import CityList from '@/components/CityList.vue';
 import CityCardSkeleton from '@/components/CityCardSkeleton.vue';
 </script>
-
-<style scoped lang="scss">
-main {
-  @apply container text-white;
-}
-</style>
