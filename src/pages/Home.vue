@@ -1,5 +1,5 @@
 <template>
-  <div class="container text-white">
+  <main class="container text-white">
     <Search />
     <Suspense>
       <template #default>
@@ -9,11 +9,15 @@
         <CityCardSkeleton />
       </template>
     </Suspense>
-  </div>
+  </main>
 </template>
 
 <script setup>
 import Search from '@/components/Search.vue';
 import CityList from '@/components/CityList.vue';
 import CityCardSkeleton from '@/components/CityCardSkeleton.vue';
+
+defineOptions({
+  name: 'HomePage'
+})
 </script>

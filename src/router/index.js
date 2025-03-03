@@ -5,14 +5,20 @@ const routes = [
     path: '/',
     name: 'home',
     component: () => import('@/pages/Home.vue'),
-    meta: { title: 'Home' },
+    meta: {
+      title: 'Home',
+      description: 'Track weather in your favorite cities'
+    }
   },
   {
     path: '/weather/:id/:city/:state?/:country?',
     name: 'city',
     component: () => import('@/pages/City.vue'),
-    meta: { title: 'City' },
-  },
+    meta: {
+      title: 'City',
+      description: 'Detailed weather information for the selected city'
+    }
+  }
 ];
 
 const router = createRouter({
@@ -24,7 +30,7 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  document.title = to.meta.title || 'Default title';
+  document.title = to.meta.title || 'WeatherApp';
   next();
 });
 

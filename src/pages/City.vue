@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <main>
     <Suspense>
       <template #default>
         <AsyncCityView />
@@ -8,10 +8,14 @@
         <CityViewSkeleton />
       </template>
     </Suspense>
-  </div>
+  </main>
 </template>
 
 <script setup>
 import AsyncCityView from '@/components/AsyncCityView.vue';
 import CityViewSkeleton from '@/components/CityViewSkeleton.vue';
+
+defineOptions({
+  name: 'CityPage'
+})
 </script>

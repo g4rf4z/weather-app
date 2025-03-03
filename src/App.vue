@@ -12,9 +12,9 @@
 </template>
 
 <script setup>
-import NavigationBar from '@/components/NavigationBar.vue';
-import { onMounted } from 'vue';
-import { useCityStore } from '@/store/city';
+import NavigationBar from '@/components/NavigationBar.vue'
+import { onMounted } from 'vue'
+import { useCityStore } from '@/store/city'
 
 const cityStore = useCityStore();
 
